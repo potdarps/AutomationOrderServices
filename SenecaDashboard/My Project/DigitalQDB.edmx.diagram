@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="80ed746efd2e4606ab7d0cb3b9538966" Name="Diagram1">
+        <EntityTypeShape EntityType="DigitalOrderQModel.AccessTable" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DigitalOrderQModel.LineCode" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DigitalOrderQModel.tb_ActiveDirectory" Width="1.5" PointX="2.75" PointY="3.75" />
+        <EntityTypeShape EntityType="DigitalOrderQModel.InternalGroup" Width="1.5" PointX="5.375" PointY="0.75" />
+        <EntityTypeShape EntityType="DigitalOrderQModel.OSQueue" Width="1.5" PointX="5.375" PointY="3.75" />
+        <EntityTypeShape EntityType="DigitalOrderQModel.Ct01_Login" Width="1.5" PointX="7.375" PointY="0.75" />
+        <EntityTypeShape EntityType="DigitalOrderQModel.LoginStamp" Width="1.5" PointX="7.375" PointY="3.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
