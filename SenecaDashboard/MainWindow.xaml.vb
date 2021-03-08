@@ -645,6 +645,7 @@ Class MainWindow
                         End If
                     Next
                 End If
+
             Case "DGBOXTRIM"
                 Dim X As List(Of OSQueue) = DGBOXTRIM.SelectedItems.OfType(Of OSQueue).ToList
                 If X.Count <> 0 Then
