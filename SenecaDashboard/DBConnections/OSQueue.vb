@@ -18,6 +18,7 @@ Partial Public Class OSQueue
     Public Property ODRPath As String
     Public Property LineCode As String
     Public Property Processed As Nullable(Of Boolean)
+    Public Property QueueGeneratedBy As String
     Public Property dateQueueGenerated As Nullable(Of Date)
     Public Property OS_SESA As String
     Public Property dateProcessed As Nullable(Of Date)
@@ -36,7 +37,6 @@ Partial Public Class OSQueue
     Public Property Designations As String
     Public Property AccountNo As String
     Public Property InternalGroup As Nullable(Of Boolean)
-    Public Property QueueGeneratedBy As String
     Public Property CatalogueNumber As String
 
 End Class

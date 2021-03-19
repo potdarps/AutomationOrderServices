@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="DigitalOrderQModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="BrossardDataWarehouseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AccessTable">
           <Key>
             <PropertyRef Name="ID" />
@@ -22,28 +22,6 @@
           <Property Name="SESA" Type="varchar" MaxLength="100" />
           <Property Name="Login_ID" Type="varchar" MaxLength="100" />
           <Property Name="Password" Type="varchar" MaxLength="100" />
-        </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'DigitalOrderQ.dbo.InternalGroups' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="InternalGroups">
-          <Key>
-            <PropertyRef Name="ID" />
-            <PropertyRef Name="AccNbr" />
-            <PropertyRef Name="Cust" />
-            <PropertyRef Name="InternalGroup" />
-          </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="AccNbr" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Cust" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="InternalGroup" Type="nvarchar" MaxLength="50" Nullable="false" />
-        </EntityType>
-        <EntityType Name="LineCodes">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="LineCode" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Product" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="LoginStamps">
           <Key>
@@ -104,52 +82,82 @@ warning 6002: The table/view 'DigitalOrderQ.dbo.InternalGroups' does not have a 
           <Property Name="sEjobCode" Type="varchar" MaxLength="200" />
           <Property Name="sEsubFunctionalArea" Type="varchar" MaxLength="200" />
         </EntityType>
-        <EntityContainer Name="DigitalOrderQModelStoreContainer">
+        <EntityContainer Name="BrossardDataWarehouseModelStoreContainer">
           <EntitySet Name="AccessTable" EntityType="Self.AccessTable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Ct01_Login" EntityType="Self.Ct01_Login" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="LineCodes" EntityType="Self.LineCodes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LoginStamps" EntityType="Self.LoginStamps" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OSQueue" EntityType="Self.OSQueue" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_ActiveDirectory" EntityType="Self.tb_ActiveDirectory" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="InternalGroups" EntityType="Self.InternalGroups" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [InternalGroups].[ID] AS [ID], 
-    [InternalGroups].[AccNbr] AS [AccNbr], 
-    [InternalGroups].[Cust] AS [Cust], 
-    [InternalGroups].[InternalGroup] AS [InternalGroup]
-    FROM [dbo].[InternalGroups] AS [InternalGroups]</DefiningQuery>
-          </EntitySet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="DigitalOrderQModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="BrossardDataWarehouseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="BrossardDataWarehouseEntities" annotation:LazyLoadingEnabled="true" >
+          <EntitySet Name="OSQueues" EntityType="BrossardDataWarehouseModel.OSQueue" />
+          <EntitySet Name="AccessTables" EntityType="BrossardDataWarehouseModel.AccessTable" />
+          <EntitySet Name="Ct01_Login" EntityType="BrossardDataWarehouseModel.Ct01_Login" />
+          <EntitySet Name="LoginStamps" EntityType="BrossardDataWarehouseModel.LoginStamp" />
+          <EntitySet Name="tb_ActiveDirectory" EntityType="BrossardDataWarehouseModel.tb_ActiveDirectory" />
+        </EntityContainer>
+        <EntityType Name="OSQueue">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Q2CLISLSS" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Product" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Category" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ODRPath" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="LineCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Processed" Type="Boolean" />
+          <Property Name="QueueGeneratedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="dateQueueGenerated" Type="DateTime" Precision="3" />
+          <Property Name="OS_SESA" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="dateProcessed" Type="DateTime" Precision="3" />
+          <Property Name="CORev" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ProgressPoint" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="OS_Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Bays" Type="Int32" />
+          <Property Name="Tags" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="PONumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CPQQuoteNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ActionStat" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PM" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="OrigProm" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CurrProm" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CommitedTo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Designations" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="AccountNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="InternalGroup" Type="Boolean" />
+          <Property Name="CatalogueNumber" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+        </EntityType>
         <EntityType Name="AccessTable">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="SESA" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Role" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Initials" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Role" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
-        <EntityType Name="LineCode">
+        <EntityType Name="Ct01_Login">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="LineCode1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Product" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SESA" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Login_ID" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
         </EntityType>
-        <EntityContainer Name="DigitalOrderQEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="AccessTables" EntityType="Self.AccessTable" />
-          <EntitySet Name="LineCodes" EntityType="Self.LineCode" />
-          <EntitySet Name="tb_ActiveDirectory" EntityType="DigitalOrderQModel.tb_ActiveDirectory" />
-          <EntitySet Name="InternalGroups" EntityType="DigitalOrderQModel.InternalGroup" />
-          <EntitySet Name="OSQueues" EntityType="DigitalOrderQModel.OSQueue" />
-          <EntitySet Name="Ct01_Login" EntityType="DigitalOrderQModel.Ct01_Login" />
-          <EntitySet Name="LoginStamps" EntityType="DigitalOrderQModel.LoginStamp" />
-        </EntityContainer>
+        <EntityType Name="LoginStamp">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SESA" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LoginDate" Type="DateTime" Precision="3" />
+        </EntityType>
         <EntityType Name="tb_ActiveDirectory">
           <Key>
             <PropertyRef Name="adId" />
@@ -169,127 +177,16 @@ warning 6002: The table/view 'DigitalOrderQ.dbo.InternalGroups' does not have a 
           <Property Name="sEjobCode" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="sEsubFunctionalArea" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
         </EntityType>
-        <EntityType Name="InternalGroup">
-          <Key>
-            <PropertyRef Name="ID" />
-            <PropertyRef Name="AccNbr" />
-            <PropertyRef Name="Cust" />
-            <PropertyRef Name="InternalGroup1" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="AccNbr" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Cust" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="InternalGroup1" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="OSQueue">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Q2CLISLSS" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Product" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Category" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="ODRPath" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="LineCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Processed" Type="Boolean" />
-          <Property Name="dateQueueGenerated" Type="DateTime" Precision="3" />
-          <Property Name="OS_SESA" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="dateProcessed" Type="DateTime" Precision="3" />
-          <Property Name="CORev" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="ProgressPoint" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="OS_Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Bays" Type="Int32" />
-          <Property Name="Tags" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="PONumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="CPQQuoteNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="ActionStat" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="PM" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="OrigProm" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="CurrProm" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="CommitedTo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Designations" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="AccountNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="InternalGroup" Type="Boolean" />
-          <Property Name="QueueGeneratedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="CatalogueNumber" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="Ct01_Login">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="SESA" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Login_ID" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Password" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="LoginStamp">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="SESA" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="LoginDate" Type="DateTime" Precision="3" />
-        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="DigitalOrderQModelStoreContainer" CdmEntityContainer="DigitalOrderQEntities">
-          <EntitySetMapping Name="AccessTables">
-            <EntityTypeMapping TypeName="DigitalOrderQModel.AccessTable">
-              <MappingFragment StoreEntitySet="AccessTable">
-                <ScalarProperty Name="Initials" ColumnName="Initials" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="SESA" ColumnName="SESA" />
-                <ScalarProperty Name="Role" ColumnName="Role" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="LineCodes">
-            <EntityTypeMapping TypeName="DigitalOrderQModel.LineCode">
-              <MappingFragment StoreEntitySet="LineCodes">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="LineCode1" ColumnName="LineCode" />
-                <ScalarProperty Name="Product" ColumnName="Product" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tb_ActiveDirectory">
-            <EntityTypeMapping TypeName="DigitalOrderQModel.tb_ActiveDirectory">
-              <MappingFragment StoreEntitySet="tb_ActiveDirectory">
-                <ScalarProperty Name="sEsubFunctionalArea" ColumnName="sEsubFunctionalArea" />
-                <ScalarProperty Name="sEjobCode" ColumnName="sEjobCode" />
-                <ScalarProperty Name="sEcostcenter" ColumnName="sEcostcenter" />
-                <ScalarProperty Name="division" ColumnName="division" />
-                <ScalarProperty Name="sEmanagerName" ColumnName="sEmanagerName" />
-                <ScalarProperty Name="sEguidManager" ColumnName="sEguidManager" />
-                <ScalarProperty Name="telephoneNumber" ColumnName="telephoneNumber" />
-                <ScalarProperty Name="mail" ColumnName="mail" />
-                <ScalarProperty Name="title" ColumnName="title" />
-                <ScalarProperty Name="displayName" ColumnName="displayName" />
-                <ScalarProperty Name="givenName" ColumnName="givenName" />
-                <ScalarProperty Name="sn" ColumnName="sn" />
-                <ScalarProperty Name="employeeID" ColumnName="employeeID" />
-                <ScalarProperty Name="adId" ColumnName="adId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="InternalGroups">
-            <EntityTypeMapping TypeName="DigitalOrderQModel.InternalGroup">
-              <MappingFragment StoreEntitySet="InternalGroups">
-                <ScalarProperty Name="InternalGroup1" ColumnName="InternalGroup" />
-                <ScalarProperty Name="Cust" ColumnName="Cust" />
-                <ScalarProperty Name="AccNbr" ColumnName="AccNbr" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
+        <EntityContainerMapping StorageEntityContainer="BrossardDataWarehouseModelStoreContainer" CdmEntityContainer="BrossardDataWarehouseEntities" >
           <EntitySetMapping Name="OSQueues">
-            <EntityTypeMapping TypeName="DigitalOrderQModel.OSQueue">
+            <EntityTypeMapping TypeName="BrossardDataWarehouseModel.OSQueue">
               <MappingFragment StoreEntitySet="OSQueue">
                 <ScalarProperty Name="CatalogueNumber" ColumnName="CatalogueNumber" />
-                <ScalarProperty Name="QueueGeneratedBy" ColumnName="QueueGeneratedBy" />
                 <ScalarProperty Name="InternalGroup" ColumnName="InternalGroup" />
                 <ScalarProperty Name="AccountNo" ColumnName="AccountNo" />
                 <ScalarProperty Name="Designations" ColumnName="Designations" />
@@ -308,6 +205,7 @@ warning 6002: The table/view 'DigitalOrderQ.dbo.InternalGroups' does not have a 
                 <ScalarProperty Name="dateProcessed" ColumnName="dateProcessed" />
                 <ScalarProperty Name="OS_SESA" ColumnName="OS_SESA" />
                 <ScalarProperty Name="dateQueueGenerated" ColumnName="dateQueueGenerated" />
+                <ScalarProperty Name="QueueGeneratedBy" ColumnName="QueueGeneratedBy" />
                 <ScalarProperty Name="Processed" ColumnName="Processed" />
                 <ScalarProperty Name="LineCode" ColumnName="LineCode" />
                 <ScalarProperty Name="ODRPath" ColumnName="ODRPath" />
@@ -318,8 +216,18 @@ warning 6002: The table/view 'DigitalOrderQ.dbo.InternalGroups' does not have a 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="AccessTables">
+            <EntityTypeMapping TypeName="BrossardDataWarehouseModel.AccessTable">
+              <MappingFragment StoreEntitySet="AccessTable">
+                <ScalarProperty Name="Role" ColumnName="Role" />
+                <ScalarProperty Name="Initials" ColumnName="Initials" />
+                <ScalarProperty Name="SESA" ColumnName="SESA" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Ct01_Login">
-            <EntityTypeMapping TypeName="DigitalOrderQModel.Ct01_Login">
+            <EntityTypeMapping TypeName="BrossardDataWarehouseModel.Ct01_Login">
               <MappingFragment StoreEntitySet="Ct01_Login">
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="Login_ID" ColumnName="Login_ID" />
@@ -329,11 +237,31 @@ warning 6002: The table/view 'DigitalOrderQ.dbo.InternalGroups' does not have a 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="LoginStamps">
-            <EntityTypeMapping TypeName="DigitalOrderQModel.LoginStamp">
+            <EntityTypeMapping TypeName="BrossardDataWarehouseModel.LoginStamp">
               <MappingFragment StoreEntitySet="LoginStamps">
                 <ScalarProperty Name="LoginDate" ColumnName="LoginDate" />
                 <ScalarProperty Name="SESA" ColumnName="SESA" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_ActiveDirectory">
+            <EntityTypeMapping TypeName="BrossardDataWarehouseModel.tb_ActiveDirectory">
+              <MappingFragment StoreEntitySet="tb_ActiveDirectory">
+                <ScalarProperty Name="sEsubFunctionalArea" ColumnName="sEsubFunctionalArea" />
+                <ScalarProperty Name="sEjobCode" ColumnName="sEjobCode" />
+                <ScalarProperty Name="sEcostcenter" ColumnName="sEcostcenter" />
+                <ScalarProperty Name="division" ColumnName="division" />
+                <ScalarProperty Name="sEmanagerName" ColumnName="sEmanagerName" />
+                <ScalarProperty Name="sEguidManager" ColumnName="sEguidManager" />
+                <ScalarProperty Name="telephoneNumber" ColumnName="telephoneNumber" />
+                <ScalarProperty Name="mail" ColumnName="mail" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="displayName" ColumnName="displayName" />
+                <ScalarProperty Name="givenName" ColumnName="givenName" />
+                <ScalarProperty Name="sn" ColumnName="sn" />
+                <ScalarProperty Name="employeeID" ColumnName="employeeID" />
+                <ScalarProperty Name="adId" ColumnName="adId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

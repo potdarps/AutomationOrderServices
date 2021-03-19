@@ -10,9 +10,10 @@
 Imports System
 Imports System.Collections.Generic
 
-Partial Public Class LineCode
+Partial Public Class AccessTable
     Public Property ID As Integer
-    Public Property LineCode1 As String
-    Public Property Product As String
+    Public Property SESA As String
+    Public Property Initials As String
+    Public Property Role As String
 
 End Class

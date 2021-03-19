@@ -384,7 +384,7 @@
             <!--  Items  -->
             <Controls:HamburgerMenu.ItemsSource>
                 <Controls:HamburgerMenuItemCollection>
-                    <Controls:HamburgerMenuIconItem Icon="{iconPacks:Material Kind=Engine}" Label="MCC" >
+                    <Controls:HamburgerMenuIconItem Icon="{iconPacks:Material Kind=Engine}" Label="SWGR/PZ4" >
                         <Controls:HamburgerMenuIconItem.Tag>
                             <Grid x:Name="GridMCC" Margin="2">
                                 <Grid.DataContext>
@@ -494,7 +494,7 @@
                             </Grid>
                         </Controls:HamburgerMenuIconItem.Tag>
                     </Controls:HamburgerMenuIconItem>
-                    <Controls:HamburgerMenuIconItem Icon="{iconPacks:BoxIcons Kind=RegularBox}" Label="BOX TRIM">
+                    <Controls:HamburgerMenuIconItem Icon="{iconPacks:BoxIcons Kind=RegularBox}" Label="RTI">
                         <Controls:HamburgerMenuIconItem.Tag>
                             <Grid x:Name="GridBOXTRIM" Margin="2">
                                 <Grid.DataContext>
@@ -604,7 +604,7 @@
                             </Grid>
                         </Controls:HamburgerMenuIconItem.Tag>
                     </Controls:HamburgerMenuIconItem>
-                    <Controls:HamburgerMenuIconItem Icon="{iconPacks:Material Kind=TransmissionTower}" Label="CAPBANK">
+                    <Controls:HamburgerMenuIconItem Icon="{iconPacks:Material Kind=TransmissionTower}" Label="BUSWAY">
                         <Controls:HamburgerMenuIconItem.Tag>
                             <Grid x:Name="GridCAPBANK" Margin="2">
                                 <Grid.DataContext>
@@ -714,7 +714,7 @@
                             </Grid>
                         </Controls:HamburgerMenuIconItem.Tag>
                     </Controls:HamburgerMenuIconItem>
-                    <Controls:HamburgerMenuIconItem Icon="{iconPacks:RPGAwesome Kind=BatteryWhite}" Label="VARSET">
+                    <Controls:HamburgerMenuIconItem Icon="{iconPacks:RPGAwesome Kind=BatteryWhite}" Label="SWBD">
                         <Controls:HamburgerMenuIconItem.Tag>
                             <Grid x:Name="GridVARSET" Margin="2">
                                 <Grid.DataContext>
@@ -824,7 +824,7 @@
                             </Grid>
                         </Controls:HamburgerMenuIconItem.Tag>
                     </Controls:HamburgerMenuIconItem>
-                    <Controls:HamburgerMenuIconItem Icon="{iconPacks:Modern Kind=Projector}" Label="CDO">
+                    <Controls:HamburgerMenuIconItem Icon="{iconPacks:Modern Kind=Projector}" Label="GIS">
                         <Controls:HamburgerMenuIconItem.Tag>
                             <Grid x:Name="GridCDO" Margin="2">
                                 <Grid.DataContext>
@@ -934,7 +934,7 @@
                             </Grid>
                         </Controls:HamburgerMenuIconItem.Tag>
                     </Controls:HamburgerMenuIconItem>
-                    <Controls:HamburgerMenuIconItem Icon="{iconPacks:JamIcons Kind=Screwdriver}" Label="DRIVES">
+                    <Controls:HamburgerMenuIconItem Icon="{iconPacks:JamIcons Kind=Screwdriver}" Label="DH/VOX">
                         <Controls:HamburgerMenuIconItem.Tag>
                             <Grid x:Name="GridDRIVES" Margin="2">
                                 <Grid.DataContext>
@@ -1044,7 +1044,7 @@
                             </Grid>
                         </Controls:HamburgerMenuIconItem.Tag>
                     </Controls:HamburgerMenuIconItem>
-                    <Controls:HamburgerMenuIconItem Icon="{iconPacks:RPGAwesome Kind=MetalGate}" Label="FAB and Spares">
+                    <Controls:HamburgerMenuIconItem Icon="{iconPacks:RPGAwesome Kind=MetalGate}" Label="HQRACK">
                         <Controls:HamburgerMenuIconItem.Tag>
                             <Grid x:Name="GridFAB" Margin="2">
                                 <Grid.DataContext>
@@ -1153,336 +1153,7 @@
                             </Grid>
                         </Controls:HamburgerMenuIconItem.Tag>
                     </Controls:HamburgerMenuIconItem>
-                    <Controls:HamburgerMenuIconItem Icon="{iconPacks:Material Kind=SolarPanel}" Label="PANELBOARD">
-                        <Controls:HamburgerMenuIconItem.Tag>
-                            <Grid x:Name="GridPanelBoard" Margin="2">
-                                <Grid.DataContext>
-                                    <local:VM1/>
-                                </Grid.DataContext>
-                                <DataGrid  x:Name="DGPanelBoard" FontSize="12"  Foreground="Black"  CanUserAddRows="false"   AutoGenerateColumns="False" FontFamily="Verdana"   Background="{x:Null}" BorderBrush="{x:Null}"  GridLinesVisibility="All" 
-                                       Grid.Row="0">
-                                    <DataGrid.Resources >
-                                        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Themes/Light.Blue.xaml" />
-                                    </DataGrid.Resources>
-                                    <DataGrid.ContextMenu >
-                                        <ContextMenu >
-                                            <MenuItem Header="Assign Product"  Tag="DGPanelBoard" >
-                                                <MenuItem Header="Shift to MCC ETO" Click="ChangeProduct_ClickAsync" Tag="MCC ETO"/>
-                                                <MenuItem Header="Shift to Panelboards" Click="ChangeProduct_ClickAsync" Tag="Panelboards"/>
-                                                <MenuItem Header="Shift to BXTR" Click="ChangeProduct_ClickAsync" Tag="BXTR"/>
-                                                <MenuItem Header="Shift to MCE" Click="ChangeProduct_ClickAsync" Tag="MCE"/>
-                                                <MenuItem Header="Shift to CDO" Click="ChangeProduct_ClickAsync" Tag="CDO"/>
-                                                <MenuItem Header="Shift to Varset" Click="ChangeProduct_ClickAsync" Tag="Varset"/>
-                                                <MenuItem Header="Shift to Spare parts" Click="ChangeProduct_ClickAsync" Tag="Spare parts"/>
-                                                <MenuItem Header="Shift to Drives" Click="ChangeProduct_ClickAsync" Tag="Drives"/>
-                                                <MenuItem Header="Shift to MISC" Click="ChangeProduct_ClickAsync" Tag="MISC"/>
-                                                <MenuItem Header="Shift to Capbank" Click="ChangeProduct_ClickAsync" Tag="Capbank"/>
-                                                <MenuItem Header="Shift to FAB" Click="ChangeProduct_ClickAsync" Tag="FAB"/>
-                                            </MenuItem>
-                                            <MenuItem Header="Assign to me" Click="AssignTome_ClickAsync" Tag="DGPanelBoard"/>
-                                            <MenuItem Header="Open ODR" Click="OpenODR_ClickAsync" Tag="DGPanelBoard"/>
-                                            <MenuItem Header="Print ODR" Click="PrintODR_ClickAsync" Tag="DGPanelBoard"/>
-                                            <MenuItem Header="Open in SEA" Click="OpenInSEA_ClickAsync" Tag="DGPanelBoard"/>
-                                            <MenuItem Header="Open in CT01" Click="OpenInCT01_ClickAsync" Tag="DGPanelBoard"/>
-                                        </ContextMenu>
-                                    </DataGrid.ContextMenu>
-
-                                    <DataGrid.ColumnHeaderStyle>
-                                        <Style TargetType="DataGridColumnHeader">
-                                            <Setter Property="ContentTemplate">
-                                                <Setter.Value>
-                                                    <DataTemplate>
-                                                        <TextBlock TextWrapping="Wrap" Text="{Binding}"></TextBlock>
-                                                    </DataTemplate>
-                                                </Setter.Value>
-                                            </Setter>
-                                        </Style>
-                                    </DataGrid.ColumnHeaderStyle>
-                                    <DataGrid.Columns >
-                                        <DataGridTextColumn   Header="Q2C" Width="auto"  Binding ="{Binding Q2CLISLSS,Converter={StaticResource Q2CLISLSSSplit}}" IsReadOnly="True"/>
-                                        <DataGridTextColumn   Header="Rev" Width="auto"  Binding ="{Binding CORev}" IsReadOnly="True"/>
-                                        <DataGridTextColumn   Header="Progress point" Width="auto"  Binding ="{Binding ProgressPoint,Converter={StaticResource ProgressPointDesignation}}" IsReadOnly="True"/>
-                                        <DataGridTextColumn   Header="Category" Width="auto"  Binding ="{Binding Category}" IsReadOnly="True"/>
-                                        <DataGridTextColumn   Header="Designations" Width="auto"  Binding ="{Binding Designations,Converter={StaticResource ProgressPointDesignation}}" IsReadOnly="True"/>
-                                        <DataGridTextColumn   Header="Line Code" Width="auto"  Binding ="{Binding LineCode}" IsReadOnly="True"/>
-                                        <DataGridTextColumn Header="Catalogue" Width="100" Binding="{Binding CatalogueNumber}" IsReadOnly="True">
-                                            <DataGridTextColumn.ElementStyle>
-                                                <Style>
-                                                    <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
-                                                    <Setter Property="TextBlock.TextAlignment" Value="Left" />
-                                                </Style>
-                                            </DataGridTextColumn.ElementStyle>
-                                        </DataGridTextColumn>
-                                        <DataGridTemplateColumn   Header="Hold" Width="auto" IsReadOnly="True">
-                                            <DataGridTemplateColumn.CellTemplate>
-                                                <DataTemplate >
-                                                    <Border CornerRadius="5" HorizontalAlignment="Center">
-                                                        <Border.Style>
-                                                            <Style TargetType="Border">
-                                                                <Style.Triggers>
-                                                                    <DataTrigger Binding="{Binding ActionStat}" Value = "N">
-                                                                        <Setter Property="Background" Value="LawnGreen" />
-                                                                    </DataTrigger>
-                                                                </Style.Triggers>
-                                                            </Style>
-                                                        </Border.Style>
-                                                        <Label  Content ="{Binding ActionStat }" />
-                                                    </Border>
-                                                </DataTemplate>
-                                            </DataGridTemplateColumn.CellTemplate>
-                                        </DataGridTemplateColumn>
-                                        <DataGridTextColumn   Header="PO" Width="auto"  Binding ="{Binding PONumber}" IsReadOnly="True"/>
-                                        <DataGridTextColumn   Header="ACC No" Width="auto"  Binding ="{Binding AccountNo}" IsReadOnly="True"/>
-                                        <DataGridTextColumn   Header="Project Manager" Width="auto"  Binding ="{Binding PM}" IsReadOnly="True"/>
-                                        <DataGridTemplateColumn  Header="IGA" Width="auto" IsReadOnly="True">
-                                            <DataGridTemplateColumn.CellTemplate>
-                                                <DataTemplate >
-                                                    <Border CornerRadius="5" HorizontalAlignment="Center">
-                                                        <Border.Style>
-                                                            <Style TargetType="Border">
-                                                                <Style.Triggers>
-                                                                    <DataTrigger Binding="{Binding InternalGroup}" Value="True">
-                                                                        <Setter Property="Background" Value="OrangeRed" />
-                                                                    </DataTrigger>
-                                                                </Style.Triggers>
-                                                            </Style>
-                                                        </Border.Style>
-                                                        <Label  Content ="{Binding InternalGroup }" />
-                                                    </Border>
-                                                </DataTemplate>
-                                            </DataGridTemplateColumn.CellTemplate>
-                                        </DataGridTemplateColumn>
-                                        <DataGridTextColumn  Header="OrigProm" Width="auto" IsReadOnly="True" Binding ="{Binding OrigProm,StringFormat=d}"/>
-                                        <DataGridTextColumn  Header="CurrProm" Width="auto" IsReadOnly="True" Binding ="{Binding CurrProm,StringFormat=d}"/>
-                                        <DataGridTextColumn  Header="CommitedTo" Width="auto" IsReadOnly="True" Binding ="{Binding CommitedTo,StringFormat=d}"/>
-                                        <DataGridTextColumn  Header="Queue Gen Date" Width="auto" IsReadOnly="True" Binding ="{Binding dateQueueGenerated,StringFormat=d}"/>
-                                        <DataGridTextColumn  Header="Queue Gen By" Width="auto" IsReadOnly="True" Binding ="{Binding QueueGeneratedBy}"/>
-                                    </DataGrid.Columns>
-
-                                </DataGrid>
-                            </Grid>
-                        </Controls:HamburgerMenuIconItem.Tag>
-                    </Controls:HamburgerMenuIconItem>                   
-                    <Controls:HamburgerMenuIconItem Icon="{iconPacks:Unicons Kind=Plug}" Label="MISC">
-                        <Controls:HamburgerMenuIconItem.Tag>
-                            <Grid x:Name="GridMisc" Margin="2">
-                                <Grid.DataContext>
-                                    <local:VM1/>
-                                </Grid.DataContext>
-                                <DataGrid  x:Name="DGMisc" FontSize="12"  Foreground="Black"  CanUserAddRows="false"   AutoGenerateColumns="False" FontFamily="Verdana"   Background="{x:Null}" BorderBrush="{x:Null}"  GridLinesVisibility="All" 
-                                       Grid.Row="0">
-                                    <DataGrid.Resources >
-                                        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Themes/Light.Blue.xaml" />
-                                    </DataGrid.Resources>
-                                    <DataGrid.ContextMenu >
-                                        <ContextMenu >
-                                            <MenuItem Header="Assign Product" Tag="DGMisc"  >
-                                                <MenuItem Header="Shift to MCC ETO" Click="ChangeProduct_ClickAsync" Tag="MCC ETO"/>
-                                                <MenuItem Header="Shift to Panelboards" Click="ChangeProduct_ClickAsync" Tag="Panelboards"/>
-                                                <MenuItem Header="Shift to BXTR" Click="ChangeProduct_ClickAsync" Tag="BXTR"/>
-                                                <MenuItem Header="Shift to MCE" Click="ChangeProduct_ClickAsync" Tag="MCE"/>
-                                                <MenuItem Header="Shift to CDO" Click="ChangeProduct_ClickAsync" Tag="CDO"/>
-                                                <MenuItem Header="Shift to Varset" Click="ChangeProduct_ClickAsync" Tag="Varset"/>
-                                                <MenuItem Header="Shift to Spare parts" Click="ChangeProduct_ClickAsync" Tag="Spare parts"/>
-                                                <MenuItem Header="Shift to Drives" Click="ChangeProduct_ClickAsync" Tag="Drives"/>
-                                                <MenuItem Header="Shift to MISC" Click="ChangeProduct_ClickAsync" Tag="MISC"/>
-                                                <MenuItem Header="Shift to Capbank" Click="ChangeProduct_ClickAsync" Tag="Capbank"/>
-                                                <MenuItem Header="Shift to FAB" Click="ChangeProduct_ClickAsync" Tag="FAB"/>
-                                            </MenuItem>
-                                            <MenuItem Header="Assign to me" Click="AssignTome_ClickAsync" Tag="DGMisc"/>
-                                            <MenuItem Header="Open ODR" Click="OpenODR_ClickAsync" Tag="DGMisc"/>
-                                            <MenuItem Header="Print ODR" Click="PrintODR_ClickAsync" Tag="DGMisc"/>
-                                            <MenuItem Header="Open in SEA" Click="OpenInSEA_ClickAsync" Tag="DGMisc"/>
-                                            <MenuItem Header="Open in CT01" Click="OpenInCT01_ClickAsync" Tag="DGMisc"/>
-                                        </ContextMenu>
-                                    </DataGrid.ContextMenu>
-
-                                    <DataGrid.ColumnHeaderStyle>
-                                        <Style TargetType="DataGridColumnHeader">
-                                            <Setter Property="ContentTemplate">
-                                                <Setter.Value>
-                                                    <DataTemplate>
-                                                        <TextBlock TextWrapping="Wrap" Text="{Binding}"></TextBlock>
-                                                    </DataTemplate>
-                                                </Setter.Value>
-                                            </Setter>
-                                        </Style>
-                                    </DataGrid.ColumnHeaderStyle>
-                                    <DataGrid.Columns >
-                                        <DataGridTextColumn   Header="Q2C" Width="auto"  Binding ="{Binding Q2CLISLSS,Converter={StaticResource Q2CLISLSSSplit}}" IsReadOnly="True"/>
-                                        <DataGridTextColumn   Header="Rev" Width="auto"  Binding ="{Binding CORev}" IsReadOnly="True"/>
-                                        <DataGridTextColumn   Header="Progress point" Width="auto"  Binding ="{Binding ProgressPoint,Converter={StaticResource ProgressPointDesignation}}" IsReadOnly="True"/>
-                                        <DataGridTextColumn   Header="Category" Width="auto"  Binding ="{Binding Category}" IsReadOnly="True"/>
-                                        <DataGridTextColumn   Header="Designations" Width="auto"  Binding ="{Binding Designations,Converter={StaticResource ProgressPointDesignation}}" IsReadOnly="True"/>
-                                        <DataGridTextColumn   Header="Line Code" Width="auto"  Binding ="{Binding LineCode}" IsReadOnly="True"/>
-                                        <DataGridTextColumn Header="Catalogue" Width="100" Binding="{Binding CatalogueNumber}" IsReadOnly="True">
-                                            <DataGridTextColumn.ElementStyle>
-                                                <Style>
-                                                    <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
-                                                    <Setter Property="TextBlock.TextAlignment" Value="Left" />
-                                                </Style>
-                                            </DataGridTextColumn.ElementStyle>
-                                        </DataGridTextColumn>
-                                        <DataGridTemplateColumn   Header="Hold" Width="auto" IsReadOnly="True">
-                                            <DataGridTemplateColumn.CellTemplate>
-                                                <DataTemplate >
-                                                    <Border CornerRadius="5" HorizontalAlignment="Center">
-                                                        <Border.Style>
-                                                            <Style TargetType="Border">
-                                                                <Style.Triggers>
-                                                                    <DataTrigger Binding="{Binding ActionStat}" Value = "N">
-                                                                        <Setter Property="Background" Value="LawnGreen" />
-                                                                    </DataTrigger>
-                                                                </Style.Triggers>
-                                                            </Style>
-                                                        </Border.Style>
-                                                        <Label  Content ="{Binding ActionStat }" />
-                                                    </Border>
-                                                </DataTemplate>
-                                            </DataGridTemplateColumn.CellTemplate>
-                                        </DataGridTemplateColumn>
-                                        <DataGridTextColumn   Header="PO" Width="auto"  Binding ="{Binding PONumber}" IsReadOnly="True"/>
-                                        <DataGridTextColumn   Header="ACC No" Width="auto"  Binding ="{Binding AccountNo}" IsReadOnly="True"/>
-                                        <DataGridTextColumn   Header="Project Manager" Width="auto"  Binding ="{Binding PM}" IsReadOnly="True"/>
-                                        <DataGridTemplateColumn  Header="IGA" Width="auto" IsReadOnly="True">
-                                            <DataGridTemplateColumn.CellTemplate>
-                                                <DataTemplate >
-                                                    <Border CornerRadius="5" HorizontalAlignment="Center">
-                                                        <Border.Style>
-                                                            <Style TargetType="Border">
-                                                                <Style.Triggers>
-                                                                    <DataTrigger Binding="{Binding InternalGroup}" Value="True">
-                                                                        <Setter Property="Background" Value="OrangeRed" />
-                                                                    </DataTrigger>
-                                                                </Style.Triggers>
-                                                            </Style>
-                                                        </Border.Style>
-                                                        <Label  Content ="{Binding InternalGroup }" />
-                                                    </Border>
-                                                </DataTemplate>
-                                            </DataGridTemplateColumn.CellTemplate>
-                                        </DataGridTemplateColumn>
-                                        <DataGridTextColumn  Header="OrigProm" Width="auto" IsReadOnly="True" Binding ="{Binding OrigProm,StringFormat=d}"/>
-                                        <DataGridTextColumn  Header="CurrProm" Width="auto" IsReadOnly="True" Binding ="{Binding CurrProm,StringFormat=d}"/>
-                                        <DataGridTextColumn  Header="CommitedTo" Width="auto" IsReadOnly="True" Binding ="{Binding CommitedTo,StringFormat=d}"/>
-                                        <DataGridTextColumn  Header="Queue Gen Date" Width="auto" IsReadOnly="True" Binding ="{Binding dateQueueGenerated,StringFormat=d}"/>
-                                        <DataGridTextColumn  Header="Queue Gen By" Width="auto" IsReadOnly="True" Binding ="{Binding QueueGeneratedBy}"/>
-                                    </DataGrid.Columns>
-
-                                </DataGrid>
-                            </Grid>
-                        </Controls:HamburgerMenuIconItem.Tag>
-                    </Controls:HamburgerMenuIconItem>
-                    <Controls:HamburgerMenuIconItem Icon="{iconPacks:Unicons Kind=Telegram}" Label="MCE">
-                        <Controls:HamburgerMenuIconItem.Tag>
-                            <Grid x:Name="GridMCE" Margin="2">
-                                <Grid.DataContext>
-                                    <local:VM1/>
-                                </Grid.DataContext>
-                                <DataGrid  x:Name="DGMCE" FontSize="12"  Foreground="Black"  CanUserAddRows="false"   AutoGenerateColumns="False" FontFamily="Verdana"   Background="{x:Null}" BorderBrush="{x:Null}"  GridLinesVisibility="All" 
-                                       Grid.Row="0">
-                                    <DataGrid.Resources >
-                                        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Themes/Light.Blue.xaml" />
-                                    </DataGrid.Resources>
-                                    <DataGrid.ContextMenu >
-                                        <ContextMenu >
-                                            <MenuItem Header="Assign Product" Tag="DGMCE"  >
-                                                <MenuItem Header="Shift to MCC ETO" Click="ChangeProduct_ClickAsync" Tag="MCC ETO"/>
-                                                <MenuItem Header="Shift to Panelboards" Click="ChangeProduct_ClickAsync" Tag="Panelboards"/>
-                                                <MenuItem Header="Shift to BXTR" Click="ChangeProduct_ClickAsync" Tag="BXTR"/>
-                                                <MenuItem Header="Shift to MCE" Click="ChangeProduct_ClickAsync" Tag="MCE"/>
-                                                <MenuItem Header="Shift to CDO" Click="ChangeProduct_ClickAsync" Tag="CDO"/>
-                                                <MenuItem Header="Shift to Varset" Click="ChangeProduct_ClickAsync" Tag="Varset"/>
-                                                <MenuItem Header="Shift to Spare parts" Click="ChangeProduct_ClickAsync" Tag="Spare parts"/>
-                                                <MenuItem Header="Shift to Drives" Click="ChangeProduct_ClickAsync" Tag="Drives"/>
-                                                <MenuItem Header="Shift to MISC" Click="ChangeProduct_ClickAsync" Tag="MISC"/>
-                                                <MenuItem Header="Shift to Capbank" Click="ChangeProduct_ClickAsync" Tag="Capbank"/>
-                                                <MenuItem Header="Shift to FAB" Click="ChangeProduct_ClickAsync" Tag="FAB"/>
-                                            </MenuItem>
-                                            <MenuItem Header="Assign to me" Click="AssignTome_ClickAsync" Tag="DGMCE"/>
-                                            <MenuItem Header="Open ODR" Click="OpenODR_ClickAsync" Tag="DGMCE"/>
-                                            <MenuItem Header="Print ODR" Click="PrintODR_ClickAsync" Tag="DGMCE"/>
-                                            <MenuItem Header="Open in SEA" Click="OpenInSEA_ClickAsync" Tag="DGMCE"/>
-                                            <MenuItem Header="Open in CT01" Click="OpenInCT01_ClickAsync" Tag="DGMCE"/>
-                                        </ContextMenu>
-                                    </DataGrid.ContextMenu>
-
-                                    <DataGrid.ColumnHeaderStyle>
-                                        <Style TargetType="DataGridColumnHeader">
-                                            <Setter Property="ContentTemplate">
-                                                <Setter.Value>
-                                                    <DataTemplate>
-                                                        <TextBlock TextWrapping="Wrap" Text="{Binding}"></TextBlock>
-                                                    </DataTemplate>
-                                                </Setter.Value>
-                                            </Setter>
-                                        </Style>
-                                    </DataGrid.ColumnHeaderStyle>
-                                    <DataGrid.Columns >
-                                        <DataGridTextColumn   Header="Q2C" Width="auto"  Binding ="{Binding Q2CLISLSS,Converter={StaticResource Q2CLISLSSSplit}}" IsReadOnly="True"/>
-                                        <DataGridTextColumn   Header="Rev" Width="auto"  Binding ="{Binding CORev}" IsReadOnly="True"/>
-                                        <DataGridTextColumn   Header="Progress point" Width="auto"  Binding ="{Binding ProgressPoint,Converter={StaticResource ProgressPointDesignation}}" IsReadOnly="True"/>
-                                        <DataGridTextColumn   Header="Category" Width="auto"  Binding ="{Binding Category}" IsReadOnly="True"/>
-                                        <DataGridTextColumn   Header="Designations" Width="auto"  Binding ="{Binding Designations,Converter={StaticResource ProgressPointDesignation}}" IsReadOnly="True"/>
-                                        <DataGridTextColumn   Header="Line Code" Width="auto"  Binding ="{Binding LineCode}" IsReadOnly="True"/>
-                                        <DataGridTextColumn Header="Catalogue" Width="100" Binding="{Binding CatalogueNumber}" IsReadOnly="True">
-                                            <DataGridTextColumn.ElementStyle>
-                                                <Style>
-                                                    <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
-                                                    <Setter Property="TextBlock.TextAlignment" Value="Left" />
-                                                </Style>
-                                            </DataGridTextColumn.ElementStyle>
-                                        </DataGridTextColumn>
-                                        <DataGridTemplateColumn   Header="Hold" Width="auto" IsReadOnly="True">
-                                            <DataGridTemplateColumn.CellTemplate>
-                                                <DataTemplate >
-                                                    <Border CornerRadius="5" HorizontalAlignment="Center">
-                                                        <Border.Style>
-                                                            <Style TargetType="Border">
-                                                                <Style.Triggers>
-                                                                    <DataTrigger Binding="{Binding ActionStat}" Value = "N">
-                                                                        <Setter Property="Background" Value="LawnGreen" />
-                                                                    </DataTrigger>
-                                                                </Style.Triggers>
-                                                            </Style>
-                                                        </Border.Style>
-                                                        <Label  Content ="{Binding ActionStat }" />
-                                                    </Border>
-                                                </DataTemplate>
-                                            </DataGridTemplateColumn.CellTemplate>
-                                        </DataGridTemplateColumn>
-                                        <DataGridTextColumn   Header="PO" Width="auto"  Binding ="{Binding PONumber}" IsReadOnly="True"/>
-                                        <DataGridTextColumn   Header="ACC No" Width="auto"  Binding ="{Binding AccountNo}" IsReadOnly="True"/>
-                                        <DataGridTextColumn   Header="Project Manager" Width="auto"  Binding ="{Binding PM}" IsReadOnly="True"/>
-                                        <DataGridTemplateColumn  Header="IGA" Width="auto" IsReadOnly="True">
-                                            <DataGridTemplateColumn.CellTemplate>
-                                                <DataTemplate >
-                                                    <Border CornerRadius="5" HorizontalAlignment="Center">
-                                                        <Border.Style>
-                                                            <Style TargetType="Border">
-                                                                <Style.Triggers>
-                                                                    <DataTrigger Binding="{Binding InternalGroup}" Value="True">
-                                                                        <Setter Property="Background" Value="OrangeRed" />
-                                                                    </DataTrigger>
-                                                                </Style.Triggers>
-                                                            </Style>
-                                                        </Border.Style>
-                                                        <Label  Content ="{Binding InternalGroup }" />
-                                                    </Border>
-                                                </DataTemplate>
-                                            </DataGridTemplateColumn.CellTemplate>
-                                        </DataGridTemplateColumn>
-                                        <DataGridTextColumn  Header="OrigProm" Width="auto" IsReadOnly="True" Binding ="{Binding OrigProm,StringFormat=d}"/>
-                                        <DataGridTextColumn  Header="CurrProm" Width="auto" IsReadOnly="True" Binding ="{Binding CurrProm,StringFormat=d}"/>
-                                        <DataGridTextColumn  Header="CommitedTo" Width="auto" IsReadOnly="True" Binding ="{Binding CommitedTo,StringFormat=d}"/>
-                                        <DataGridTextColumn  Header="Queue Gen Date" Width="auto" IsReadOnly="True" Binding ="{Binding dateQueueGenerated,StringFormat=d}"/>
-                                        <DataGridTextColumn  Header="Queue Gen By" Width="auto" IsReadOnly="True" Binding ="{Binding QueueGeneratedBy}"/>
-                                    </DataGrid.Columns>
-
-                                </DataGrid>
-                            </Grid>
-                        </Controls:HamburgerMenuIconItem.Tag>
-                    </Controls:HamburgerMenuIconItem>
+                     
                     <Controls:HamburgerMenuIconItem Icon="{iconPacks:Material Kind=Tools}" Label="Blank">
                         <Controls:HamburgerMenuIconItem.Tag>
                             <Grid x:Name="GridBLANK" Margin="2">

@@ -29,7 +29,7 @@ Class MainWindow
 
         Try
 
-            Using db As New DigitalOrderQEntities
+            Using db As New BrossardDataWarehouseEntities
                 Dim C = (From A In db.AccessTables Select A.SESA).ToList
                 If C.Contains(Environment.UserName.ToUpper) = False Then
                     MsgBox("Access Denied")
@@ -46,7 +46,7 @@ Class MainWindow
             MsgBox(ex.Message)
         End Try
         Try
-            Using db As New DigitalOrderQEntities
+            Using db As New BrossardDataWarehouseEntities
                 Dim C = (From A In db.AccessTables Select A.SESA).ToList
                 If C.Contains(Environment.UserName.ToUpper) = False Then
                     MsgBox("Access Denied")
@@ -106,7 +106,7 @@ Class MainWindow
         DGMisc.Items.Clear()
         DGMCE.ItemsSource = Nothing
         DGMCE.Items.Clear()
-        Using db As New DigitalOrderQEntities
+        Using db As New BrossardDataWarehouseEntities
             DGMCC.ItemsSource = (From record In db.OSQueues Where record.Product = "MCC ETO" And record.OS_SESA Is Nothing).ToList
             DGFAB.ItemsSource = (From record In db.OSQueues Where (record.Product = "FAB" Or record.Product = "Spare parts") And record.OS_SESA Is Nothing).ToList
             DGBLANK.ItemsSource = (From record In db.OSQueues Where record.Product = "Blank" And record.OS_SESA Is Nothing).ToList
@@ -122,13 +122,13 @@ Class MainWindow
         End Using
     End Sub
     Public Function GetnameFromSESA(SESA As String) As String
-        Using db As New DigitalOrderQEntities
+        Using db As New BrossardDataWarehouseEntities
             Dim K = (From A In db.tb_ActiveDirectory Where A.employeeID = SESA)
             If K.Any Then Return K.First.displayName Else Return SESA
         End Using
     End Function
     Public Sub loadSchedulerList()
-        Using db As New DigitalOrderQEntities
+        Using db As New BrossardDataWarehouseEntities
             Dim K = From A In db.AccessTables
                     Join B In db.tb_ActiveDirectory
                         On A.SESA Equals B.employeeID
@@ -143,7 +143,7 @@ Class MainWindow
     End Sub
     Public Function ReturnNameFrmSesa(Sesa As String) As String
         Dim Name As String = Sesa
-        Using db As New DigitalOrderQEntities
+        Using db As New BrossardDataWarehouseEntities
             Dim rec = From record In db.tb_ActiveDirectory Where record.employeeID = Sesa
             If rec.Any Then Name = rec.First.displayName
         End Using
@@ -191,7 +191,7 @@ Class MainWindow
                                                                              Dim Counter As Integer = 1
                                                                              For Each singleFile In allFiles
                                                                                  Dim X = processODR(singleFile)
-                                                                                 Using db As New DigitalOrderQEntities
+                                                                                 Using db As New BrossardDataWarehouseEntities
                                                                                      db.OSQueues.AddRange(X)
                                                                                      db.SaveChanges()
                                                                                  End Using
@@ -359,7 +359,7 @@ Class MainWindow
 
                         End If
 
-                        End If
+                    End If
                     If PagebyLine(PagebyLine.Length - 1).Contains(Today.Year) Or PagebyLine(PagebyLine.Length - 1).Contains(Today.Year + 1) Then
                         ODRExtract.CurrProm = PagebyLine(PagebyLine.Length - 1)
                     End If
@@ -391,7 +391,7 @@ Class MainWindow
     End Function
     Public Function CheckIfIGA(AccNumber As String) As Boolean
         Dim IGA As Boolean = False
-        Using db As New DigitalOrderQEntities
+        Using db As New BrossardDataWarehouseEntities
             Dim rec = From record In db.InternalGroups Where record.AccNbr = AccNumber
             If rec.Any Then IGA = True
         End Using
@@ -399,7 +399,7 @@ Class MainWindow
     End Function
     Public Function IdentifyProductFromLC(LC As String)
         Dim Product As String
-        Using db As New DigitalOrderQEntities
+        Using db As New BrossardDataWarehouseEntities
             Dim rec = From record In db.LineCodes Where record.LineCode1 = LC
             If rec.Any Then
                 Product = rec.First.Product
@@ -576,7 +576,7 @@ Class MainWindow
         End Select
     End Function
     Public Sub AssignToMe(X As List(Of OSQueue))
-        Using db As New DigitalOrderQEntities
+        Using db As New BrossardDataWarehouseEntities
             For Each I In X
                 Dim rec = From record In db.OSQueues Where record.ID = I.ID
                 If rec.Any Then rec.First.OS_SESA = Environment.UserName.ToUpper
@@ -621,7 +621,7 @@ Class MainWindow
         End If
     End Function
     Public Sub ChangeProductinOSQueue(X As List(Of OSQueue), NewProduct As String)
-        Using db As New DigitalOrderQEntities
+        Using db As New BrossardDataWarehouseEntities
             For Each Y In X
                 Dim rec = From record In db.OSQueues Where record.ID = Y.ID
                 If rec.Any Then rec.First.Product = NewProduct
@@ -771,7 +771,7 @@ Class MainWindow
     End Function
 
     Private Sub ProcessJobs_Click(sender As Object, e As RoutedEventArgs)
-        Using db As New DigitalOrderQEntities
+        Using db As New BrossardDataWarehouseEntities
             If DGMYQueue.SelectedIndex <> -1 Then
                 Dim X As List(Of OSQueue) = DGMYQueue.SelectedItems.OfType(Of OSQueue).ToList
                 If X.Count <> 0 Then
@@ -1041,7 +1041,7 @@ Class MainWindow
 
     Private Async Function LoadSelectedSchedulerQueue_ClickAsync(sender As Object, e As RoutedEventArgs) As Task
         If DGSchedulerList.SelectedItem IsNot Nothing Then
-            Using db As New DigitalOrderQEntities
+            Using db As New BrossardDataWarehouseEntities
 
                 Dim T As String = DGSchedulerList.SelectedItem.SESA
                 Dim K = From A In db.OSQueues Where A.OS_SESA = T And A.Processed <> True
@@ -1058,7 +1058,7 @@ Class MainWindow
     End Function
 
     Private Sub btnHome_Click(sender As Object, e As RoutedEventArgs) Handles btnHome.Click
-        Using db As New DigitalOrderQEntities
+        Using db As New BrossardDataWarehouseEntities
             Dim K = From A In db.OSQueues Where A.OS_SESA = Environment.UserName.ToUpper And A.Processed <> True
             DGMYQueue.ItemsSource = Nothing
             DGMYQueue.Items.Clear()

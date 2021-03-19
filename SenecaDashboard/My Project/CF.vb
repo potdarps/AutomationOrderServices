@@ -1,5 +1,5 @@
 ﻿Imports System.Windows.Forms
-Imports Broussard_Dashboard.Broussard_Dashboard
+Imports Broussard_Dashboard.BrossardDataWarehouseEntities
 
 Public Class CF
     Public Function handlePassword()

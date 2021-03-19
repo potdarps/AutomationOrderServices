@@ -13,9 +13,9 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <PublishUrl>U:\SenecaDashboard\</PublishUrl>
+    <PublishUrl>X:\Order Services Dashboard\</PublishUrl>
     <Install>true</Install>
-    <InstallFrom>Disk</InstallFrom>
+    <InstallFrom>Unc</InstallFrom>
     <UpdateEnabled>true</UpdateEnabled>
     <UpdateMode>Background</UpdateMode>
     <UpdateInterval>7</UpdateInterval>
@@ -23,13 +23,15 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>true</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ProductName>Seneca Dashboard</ProductName>
+    <InstallUrl>\\orion-lpe.nam.gad.schneider-electric.com\Departements\200. Service Clientèle\99. Archive\ODR + SPD\Order Services Dashboard\</InstallUrl>
+    <UpdateUrl>\\orion-lpe.nam.gad.schneider-electric.com\Departements\200. Service Clientèle\99. Archive\ODR + SPD\Order Services Dashboard\</UpdateUrl>
+    <ProductName>Broussard Dashboard</ProductName>
     <PublisherName>Pankaj Potdar at Schenider Electric. Columbia ,SC</PublisherName>
     <SuiteName>Digital Dashboard</SuiteName>
     <MinimumRequiredVersion>1.0.0.0</MinimumRequiredVersion>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationRevision>1</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>true</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -231,43 +233,37 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="My Project\AccessTable.vb">
-      <DependentUpon>DigitalQDB.tt</DependentUpon>
+    <Compile Include="DBConnections\AccessTable.vb">
+      <DependentUpon>BrossardDataWarehouse.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DBConnections\BrossardDataWarehouse.Context.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BrossardDataWarehouse.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DBConnections\BrossardDataWarehouse.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BrossardDataWarehouse.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="DBConnections\BrossardDataWarehouse.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BrossardDataWarehouse.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DBConnections\Ct01_Login.vb">
+      <DependentUpon>BrossardDataWarehouse.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DBConnections\LoginStamp.vb">
+      <DependentUpon>BrossardDataWarehouse.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DBConnections\OSQueue.vb">
+      <DependentUpon>BrossardDataWarehouse.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DBConnections\tb_ActiveDirectory.vb">
+      <DependentUpon>BrossardDataWarehouse.tt</DependentUpon>
     </Compile>
     <Compile Include="My Project\CF.vb" />
-    <Compile Include="My Project\Ct01_Login.vb">
-      <DependentUpon>DigitalQDB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="My Project\DigitalQDB.Context.vb">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DigitalQDB.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="My Project\DigitalQDB.Designer.vb">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DigitalQDB.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="My Project\DigitalQDB.vb">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DigitalQDB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="My Project\InternalGroup.vb">
-      <DependentUpon>DigitalQDB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="My Project\LineCode.vb">
-      <DependentUpon>DigitalQDB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="My Project\LoginStamp.vb">
-      <DependentUpon>DigitalQDB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="My Project\OSQueue.vb">
-      <DependentUpon>DigitalQDB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="My Project\tb_ActiveDirectory.vb">
-      <DependentUpon>DigitalQDB.tt</DependentUpon>
-    </Compile>
     <Compile Include="VM1.vb" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -324,15 +320,15 @@
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
     </EmbeddedResource>
-    <EntityDeploy Include="My Project\DigitalQDB.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>DigitalQDB.Designer.vb</LastGenOutput>
-    </EntityDeploy>
     <None Include="Broussard_Dashboard_TemporaryKey.pfx" />
-    <None Include="My Project\app.manifest" />
-    <None Include="My Project\DigitalQDB.edmx.diagram">
-      <DependentUpon>DigitalQDB.edmx</DependentUpon>
+    <EntityDeploy Include="DBConnections\BrossardDataWarehouse.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>BrossardDataWarehouse.Designer.vb</LastGenOutput>
+    </EntityDeploy>
+    <None Include="DBConnections\BrossardDataWarehouse.edmx.diagram">
+      <DependentUpon>BrossardDataWarehouse.edmx</DependentUpon>
     </None>
+    <None Include="My Project\app.manifest" />
     <None Include="My Project\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
@@ -347,15 +343,15 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\SE_symbol_white.png" />
-    <Content Include="My Project\DigitalQDB.Context.tt">
+    <Content Include="DBConnections\BrossardDataWarehouse.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>DigitalQDB.Context.vb</LastGenOutput>
-      <DependentUpon>DigitalQDB.edmx</DependentUpon>
+      <DependentUpon>BrossardDataWarehouse.edmx</DependentUpon>
+      <LastGenOutput>BrossardDataWarehouse.Context.vb</LastGenOutput>
     </Content>
-    <Content Include="My Project\DigitalQDB.tt">
+    <Content Include="DBConnections\BrossardDataWarehouse.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>DigitalQDB.edmx</DependentUpon>
-      <LastGenOutput>DigitalQDB.vb</LastGenOutput>
+      <DependentUpon>BrossardDataWarehouse.edmx</DependentUpon>
+      <LastGenOutput>BrossardDataWarehouse.vb</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>
