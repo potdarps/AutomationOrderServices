@@ -10,7 +10,7 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:materialDesignConverters="clr-namespace:MaterialDesignThemes.Wpf.Converters;assembly=MaterialDesignThemes.Wpf"
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"                     
-        Title="Seneca Order Services" TitleAlignment="Left" WindowStartupLocation="CenterScreen" WindowState="Maximized" Background="White"
+        Title="Broussard Order Services" TitleAlignment="Left" WindowStartupLocation="CenterScreen" WindowState="Maximized" Background="White"
                       Icon="/SenecaDashboard;component/Images/SE_symbol_white.png">
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
