@@ -11,10 +11,10 @@ Imports System.Windows
 
 ' Review the values of the assembly attributes
 
-<Assembly: AssemblyTitle("SenecaDashboard")>
+<Assembly: AssemblyTitle("Broussard_Dashboard")>
 <Assembly: AssemblyDescription("")>
 <Assembly: AssemblyCompany("")>
-<Assembly: AssemblyProduct("SenecaDashboard")>
+<Assembly: AssemblyProduct("Broussard_Dashboard")>
 <Assembly: AssemblyCopyright("Copyright ©  2020")>
 <Assembly: AssemblyTrademark("")>
 <Assembly: ComVisible(false)>

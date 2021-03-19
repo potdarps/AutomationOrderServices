@@ -10,14 +10,10 @@
 Imports System
 Imports System.Collections.Generic
 
-Namespace SenecaDashboard
+Partial Public Class InternalGroup
+    Public Property ID As Integer
+    Public Property AccNbr As String
+    Public Property Cust As String
+    Public Property InternalGroup1 As String
 
-    Partial Public Class InternalGroup
-        Public Property ID As Integer
-        Public Property AccNbr As String
-        Public Property Cust As String
-        Public Property InternalGroup1 As String
-    
-    End Class
-
-End Namespace
+End Class

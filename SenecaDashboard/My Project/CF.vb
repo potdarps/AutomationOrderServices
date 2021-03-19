@@ -1,5 +1,5 @@
 ﻿Imports System.Windows.Forms
-Imports SenecaDashboard.SenecaDashboard
+Imports Broussard_Dashboard.Broussard_Dashboard
 
 Public Class CF
     Public Function handlePassword()

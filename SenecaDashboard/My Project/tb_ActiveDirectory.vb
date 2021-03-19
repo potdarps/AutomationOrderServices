@@ -10,24 +10,20 @@
 Imports System
 Imports System.Collections.Generic
 
-Namespace SenecaDashboard
+Partial Public Class tb_ActiveDirectory
+    Public Property adId As Integer
+    Public Property employeeID As String
+    Public Property sn As String
+    Public Property givenName As String
+    Public Property displayName As String
+    Public Property title As String
+    Public Property mail As String
+    Public Property telephoneNumber As String
+    Public Property sEguidManager As String
+    Public Property sEmanagerName As String
+    Public Property division As String
+    Public Property sEcostcenter As String
+    Public Property sEjobCode As String
+    Public Property sEsubFunctionalArea As String
 
-    Partial Public Class tb_ActiveDirectory
-        Public Property adId As Integer
-        Public Property employeeID As String
-        Public Property sn As String
-        Public Property givenName As String
-        Public Property displayName As String
-        Public Property title As String
-        Public Property mail As String
-        Public Property telephoneNumber As String
-        Public Property sEguidManager As String
-        Public Property sEmanagerName As String
-        Public Property division As String
-        Public Property sEcostcenter As String
-        Public Property sEjobCode As String
-        Public Property sEsubFunctionalArea As String
-    
-    End Class
-
-End Namespace
+End Class

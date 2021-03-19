@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:SenecaDashboard"
+        xmlns:local="clr-namespace:Broussard_Dashboard"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                        
         mc:Ignorable="d"       
@@ -11,7 +11,7 @@
         xmlns:materialDesignConverters="clr-namespace:MaterialDesignThemes.Wpf.Converters;assembly=MaterialDesignThemes.Wpf"
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"                     
         Title="Broussard Order Services" TitleAlignment="Left" WindowStartupLocation="CenterScreen" WindowState="Maximized" Background="White"
-                      Icon="/SenecaDashboard;component/Images/SE_symbol_white.png">
+                      Icon="/Broussard_Dashboard;component/Images/SE_symbol_white.png">
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
             <Label x:Name="lblNameOfScheduler" Foreground="White" FontFamily="Verdana" FontSize="16"/>

@@ -10,13 +10,9 @@
 Imports System
 Imports System.Collections.Generic
 
-Namespace SenecaDashboard
+Partial Public Class LineCode
+    Public Property ID As Integer
+    Public Property LineCode1 As String
+    Public Property Product As String
 
-    Partial Public Class LineCode
-        Public Property ID As Integer
-        Public Property LineCode1 As String
-        Public Property Product As String
-    
-    End Class
-
-End Namespace
+End Class

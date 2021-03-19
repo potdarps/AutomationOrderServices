@@ -1,7 +1,7 @@
 ﻿Imports MahApps.Metro.Controls.Dialogs
 Imports MahApps.Metro.Controls
 Imports System.IO
-Imports SenecaDashboard.SenecaDashboard
+Imports Broussard_Dashboard.Broussard_Dashboard
 Imports iTextSharp.text.pdf
 Imports System.Threading
 Imports iTextSharp.text
@@ -65,7 +65,7 @@ Class MainWindow
             lblNameOfScheduler.Content = "Welcome to Dashboard " + GetnameFromSESA(Environment.UserName.ToUpper)
 
             Dim p() As Process
-            p = Process.GetProcessesByName("SenecaDashboard")
+            p = Process.GetProcessesByName("Broussard_Dashboard")
             If p.Count > 1 Then
                 MessageBox.Show("There is instance of dashboard running!")
                 Me.Close()

@@ -6,8 +6,8 @@
     <ProjectGuid>{187A76D1-712C-4F9C-BB6D-C352C33368EA}</ProjectGuid>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{F184B08F-C81C-45F6-A57F-5ABD9991F28F}</ProjectTypeGuids>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>SenecaDashboard</RootNamespace>
-    <AssemblyName>SenecaDashboard</AssemblyName>
+    <RootNamespace>Broussard_Dashboard</RootNamespace>
+    <AssemblyName>Broussard_Dashboard</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <MyType>Custom</MyType>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -15,7 +15,7 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>U:\SenecaDashboard\</PublishUrl>
     <Install>true</Install>
-    <InstallFrom>Unc</InstallFrom>
+    <InstallFrom>Disk</InstallFrom>
     <UpdateEnabled>true</UpdateEnabled>
     <UpdateMode>Background</UpdateMode>
     <UpdateInterval>7</UpdateInterval>
@@ -23,15 +23,13 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>true</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <InstallUrl>\\wsus04602fp\shared\Public\customer service\SenecaDashboard\</InstallUrl>
-    <UpdateUrl>\\wsus04602fp\shared\Public\customer service\SenecaDashboard\</UpdateUrl>
     <ProductName>Seneca Dashboard</ProductName>
     <PublisherName>Pankaj Potdar at Schenider Electric. Columbia ,SC</PublisherName>
     <SuiteName>Digital Dashboard</SuiteName>
-    <MinimumRequiredVersion>1.0.0.11</MinimumRequiredVersion>
+    <MinimumRequiredVersion>1.0.0.0</MinimumRequiredVersion>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>12</ApplicationRevision>
+    <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>true</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -46,7 +44,7 @@
     <DefineTrace>true</DefineTrace>
     <IncrementalBuild>true</IncrementalBuild>
     <OutputPath>bin\Debug\</OutputPath>
-    <DocumentationFile>SenecaDashboard.xml</DocumentationFile>
+    <DocumentationFile>Broussard_Dashboard.xml</DocumentationFile>
     <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036,42314</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -58,7 +56,7 @@
     <IncrementalBuild>false</IncrementalBuild>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DocumentationFile>SenecaDashboard.xml</DocumentationFile>
+    <DocumentationFile>Broussard_Dashboard.xml</DocumentationFile>
     <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036,42314</NoWarn>
   </PropertyGroup>
   <PropertyGroup>
@@ -80,10 +78,10 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>D41C45253B9419FC90F9BA2BF6ACB4AFD598FCB7</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>72207D3BF2C6F7AD15CDF7F7C1526B0D51CBD899</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>SenecaDashboard_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>Broussard_Dashboard_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
@@ -330,6 +328,7 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>DigitalQDB.Designer.vb</LastGenOutput>
     </EntityDeploy>
+    <None Include="Broussard_Dashboard_TemporaryKey.pfx" />
     <None Include="My Project\app.manifest" />
     <None Include="My Project\DigitalQDB.edmx.diagram">
       <DependentUpon>DigitalQDB.edmx</DependentUpon>
@@ -339,7 +338,6 @@
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
     <None Include="packages.config" />
-    <None Include="SenecaDashboard_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
