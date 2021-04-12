@@ -83,65 +83,73 @@ Class MainWindow
         End Try
         generateProductShiftMenuItems()
     End Sub
-    Public Sub generateProductShiftMenuItems()
+
+    Public Function CreateContextMenuforDG(TAG As String) As Controls.ContextMenu
+        Dim MenuList As New Controls.ContextMenu
         Using db As New BrossardDataWarehouseEntities
-            Dim MenuList As New Controls.ContextMenu
             Dim Menu As New Controls.MenuItem
-            Menu.Tag = "DGOTHER"
             Menu.Header = "Change Products"
+            Menu.Tag = TAG
             Dim rec = (From A In db.ProductLineToProductNames Select A.ProductName).Distinct.ToList
             For Each A In rec
                 Dim Menu1 As New Controls.MenuItem
                 Menu1.Header = "Change to " + A
+                Menu1.Tag = A
                 AddHandler Menu1.Click, New RoutedEventHandler(AddressOf ChangeProduct_ClickAsync)
                 Menu.Items.Add(Menu1)
             Next
 
+            MenuList.Items.Add(Menu)
+
             Dim Menu2 As New Controls.MenuItem
             Menu2.Header = "Assign to me"
+            Menu2.Tag = TAG
             AddHandler Menu2.Click, New RoutedEventHandler(AddressOf AssignTome_ClickAsync)
             MenuList.Items.Add(Menu2)
 
             Menu2 = New Controls.MenuItem
             Menu2.Header = "Open ODR"
+            Menu2.Tag = TAG
             AddHandler Menu2.Click, New RoutedEventHandler(AddressOf OpenODR_ClickAsync)
             MenuList.Items.Add(Menu2)
 
             Menu2 = New Controls.MenuItem
             Menu2.Header = "Print ODR"
+            Menu2.Tag = TAG
             AddHandler Menu2.Click, New RoutedEventHandler(AddressOf PrintODR_ClickAsync)
             MenuList.Items.Add(Menu2)
 
             Menu2 = New Controls.MenuItem
             Menu2.Header = "Open in SEA"
+            Menu2.Tag = TAG
             AddHandler Menu2.Click, New RoutedEventHandler(AddressOf OpenInSEA_ClickAsync)
             MenuList.Items.Add(Menu2)
 
             Menu2 = New Controls.MenuItem
             Menu2.Header = "Open in CTO1"
+            Menu2.Tag = TAG
             AddHandler Menu2.Click, New RoutedEventHandler(AddressOf OpenInCT01_ClickAsync)
             MenuList.Items.Add(Menu2)
-
-            MenuList.Items.Add(Menu)
-            DGOTHER.ContextMenu = MenuList
-            Menu.Tag = "DGSWGRPZ4"
-            DGSWGRPZ4.ContextMenu = MenuList
-            Menu.Tag = "DGRTI"
-            DGRTI.ContextMenu = MenuList
-            Menu.Tag = "DGBUSWAY"
-            DGBUSWAY.ContextMenu = MenuList
-            Menu.Tag = "DGSWBD"
-            DGSWBD.ContextMenu = MenuList
-            Menu.Tag = "DGGIS"
-            DGGIS.ContextMenu = MenuList
-            Menu.Tag = "DGDHVOX"
-            DGDHVOX.ContextMenu = MenuList
-            Menu.Tag = "DGHQRACK"
-            DGHQRACK.ContextMenu = MenuList
         End Using
+        Return MenuList
+    End Function
 
+    Public Sub generateProductShiftMenuItems()
+        DGOTHER.ContextMenu = CreateContextMenuforDG("DGOTHER")
 
+        DGSWGRPZ4.ContextMenu = CreateContextMenuforDG("DGSWGRPZ4")
 
+        DGRTI.ContextMenu = CreateContextMenuforDG("DGRTI")
+
+        DGBUSWAY.ContextMenu = CreateContextMenuforDG("DGBUSWAY")
+
+        DGSWBD.ContextMenu = CreateContextMenuforDG("DGSWBD")
+
+        DGGIS.ContextMenu = CreateContextMenuforDG("DGGIS")
+
+        DGDHVOX.ContextMenu = CreateContextMenuforDG("DGDHVOX")
+
+        DGHQRACK.ContextMenu = CreateContextMenuforDG("DGHQRACK")
     End Sub
     Public Sub loadOSQueue()
         DGSWGRPZ4.ItemsSource = Nothing
@@ -1186,7 +1194,7 @@ Class MainWindow
                 X = DGMYQueue.SelectedItem
         End Select
         If X IsNot Nothing Then
-            OpenJobinCT01(X.Q2CLISLSS.Substring(0, 8), X.Q2CLISLSS.Substring(8, 3), "046")
+            OpenJobinCT01(X.Q2CLISLSS.Substring(0, 8), X.Q2CLISLSS.Substring(8, 3), "057")
         Else
             Await Me.ShowMessageAsync("Error", "Please select atleast one job")
         End If
