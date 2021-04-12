@@ -63,6 +63,14 @@
           <Property Name="InternalGroup" Type="bit" />
           <Property Name="CatalogueNumber" Type="varchar" MaxLength="200" />
         </EntityType>
+        <EntityType Name="ProductLineToProductName">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductLine" Type="varchar" MaxLength="500" />
+          <Property Name="ProductName" Type="varchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="tb_ActiveDirectory">
           <Key>
             <PropertyRef Name="adId" />
@@ -87,6 +95,7 @@
           <EntitySet Name="Ct01_Login" EntityType="Self.Ct01_Login" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LoginStamps" EntityType="Self.LoginStamps" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OSQueue" EntityType="Self.OSQueue" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProductLineToProductName" EntityType="Self.ProductLineToProductName" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_ActiveDirectory" EntityType="Self.tb_ActiveDirectory" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -99,6 +108,7 @@
           <EntitySet Name="Ct01_Login" EntityType="BrossardDataWarehouseModel.Ct01_Login" />
           <EntitySet Name="LoginStamps" EntityType="BrossardDataWarehouseModel.LoginStamp" />
           <EntitySet Name="tb_ActiveDirectory" EntityType="BrossardDataWarehouseModel.tb_ActiveDirectory" />
+          <EntitySet Name="ProductLineToProductNames" EntityType="BrossardDataWarehouseModel.ProductLineToProductName" />
         </EntityContainer>
         <EntityType Name="OSQueue">
           <Key>
@@ -176,6 +186,14 @@
           <Property Name="sEcostcenter" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="sEjobCode" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="sEsubFunctionalArea" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="ProductLineToProductName">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductLine" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="ProductName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -262,6 +280,15 @@
                 <ScalarProperty Name="sn" ColumnName="sn" />
                 <ScalarProperty Name="employeeID" ColumnName="employeeID" />
                 <ScalarProperty Name="adId" ColumnName="adId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductLineToProductNames">
+            <EntityTypeMapping TypeName="BrossardDataWarehouseModel.ProductLineToProductName">
+              <MappingFragment StoreEntitySet="ProductLineToProductName">
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="ProductLine" ColumnName="ProductLine" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

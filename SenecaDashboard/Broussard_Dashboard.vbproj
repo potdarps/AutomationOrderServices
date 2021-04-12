@@ -28,10 +28,10 @@
     <ProductName>Broussard Dashboard</ProductName>
     <PublisherName>Pankaj Potdar at Schenider Electric. Columbia ,SC</PublisherName>
     <SuiteName>Digital Dashboard</SuiteName>
-    <MinimumRequiredVersion>1.0.0.0</MinimumRequiredVersion>
+    <MinimumRequiredVersion>1.0.0.5</MinimumRequiredVersion>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>1</ApplicationRevision>
+    <ApplicationRevision>6</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>true</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -260,6 +260,27 @@
     <Compile Include="DBConnections\OSQueue.vb">
       <DependentUpon>BrossardDataWarehouse.tt</DependentUpon>
     </Compile>
+    <Compile Include="DBConnections\ProductCode.vb">
+      <DependentUpon>STH Orders.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DBConnections\ProductLineToProductName.vb">
+      <DependentUpon>BrossardDataWarehouse.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DBConnections\STH Orders.Context.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>STH Orders.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DBConnections\STH Orders.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>STH Orders.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="DBConnections\STH Orders.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>STH Orders.tt</DependentUpon>
+    </Compile>
     <Compile Include="DBConnections\tb_ActiveDirectory.vb">
       <DependentUpon>BrossardDataWarehouse.tt</DependentUpon>
     </Compile>
@@ -328,6 +349,13 @@
     <None Include="DBConnections\BrossardDataWarehouse.edmx.diagram">
       <DependentUpon>BrossardDataWarehouse.edmx</DependentUpon>
     </None>
+    <EntityDeploy Include="DBConnections\STH Orders.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>STH Orders.Designer.vb</LastGenOutput>
+    </EntityDeploy>
+    <None Include="DBConnections\STH Orders.edmx.diagram">
+      <DependentUpon>STH Orders.edmx</DependentUpon>
+    </None>
     <None Include="My Project\app.manifest" />
     <None Include="My Project\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -342,6 +370,16 @@
     <Resource Include="Dashboard.ico" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="DBConnections\STH Orders.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>STH Orders.edmx</DependentUpon>
+      <LastGenOutput>STH Orders.Context.vb</LastGenOutput>
+    </Content>
+    <Content Include="DBConnections\STH Orders.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>STH Orders.edmx</DependentUpon>
+      <LastGenOutput>STH Orders.vb</LastGenOutput>
+    </Content>
     <Resource Include="Images\SE_symbol_white.png" />
     <Content Include="DBConnections\BrossardDataWarehouse.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

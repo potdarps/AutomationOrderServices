@@ -1,7 +1,6 @@
 ﻿Imports MahApps.Metro.Controls.Dialogs
 Imports MahApps.Metro.Controls
 Imports System.IO
-Imports Broussard_Dashboard.Broussard_Dashboard
 Imports iTextSharp.text.pdf
 Imports System.Threading
 Imports iTextSharp.text
@@ -13,10 +12,10 @@ Class MainWindow
     Public Property VM As VM1
     Private tokenSource As CancellationTokenSource
 
-    Dim ProcessingFolder As String = "C:\Users\" + Environment.UserName.ToUpper + "\Box\Seneca Digital ODR\Processing\"
+    Dim ProcessingFolder As String = "C:\Users\" + Environment.UserName.ToUpper + "\Box\Automation\Order Entry Automation Brossard\Processing\"
     'Dim ProcessingFolder As String = "C:\Users\" + Environment.UserName.ToUpper + "\Box\Seneca Digital ODR\TestProcessing\"
-    Dim ProcessedFolder As String = "C:\Users\" + Environment.UserName.ToUpper + "\Box\Seneca Digital ODR\Processed\"
-    Dim ODRFolder As String = "C:\Users\" + Environment.UserName.ToUpper + "\Box\Seneca Digital ODR\ODRs\"
+    Dim ProcessedFolder As String = "C:\Users\" + Environment.UserName.ToUpper + "\Box\Automation\Order Entry Automation Brossard\Processed\"
+    Dim ODRFolder As String = "C:\Users\" + Environment.UserName.ToUpper + "\Box\Automation\Order Entry Automation Brossard\ODRs\"
     Dim fileCount As Integer = 0
 
     Public Sub New()
@@ -70,54 +69,110 @@ Class MainWindow
                 MessageBox.Show("There is instance of dashboard running!")
                 Me.Close()
             End If
-            If Directory.Exists("C:\Users\" + Environment.UserName.ToUpper + "\Box\Seneca Digital ODR") = False Then
-                MessageBox.Show("You dont have Box drive installed with Seneca Digital ODR folder mapped" + Environment.NewLine + "Please contact developer!")
+            If Directory.Exists("C:\Users\" + Environment.UserName.ToUpper + "\Box\Automation\Order Entry Automation Brossard") = False Then
+                MessageBox.Show("You dont have Box drive installed with Automation folder mapped" + Environment.NewLine + "Please contact developer!")
                 Me.Close()
             End If
             loadOSQueue()
             loadSchedulerList()
+
+
+
         Catch ex As Exception
             MsgBox(ex.Message)
         End Try
+        generateProductShiftMenuItems()
+    End Sub
+    Public Sub generateProductShiftMenuItems()
+        Using db As New BrossardDataWarehouseEntities
+            Dim MenuList As New Controls.ContextMenu
+            Dim Menu As New Controls.MenuItem
+            Menu.Tag = "DGOTHER"
+            Menu.Header = "Change Products"
+            Dim rec = (From A In db.ProductLineToProductNames Select A.ProductName).Distinct.ToList
+            For Each A In rec
+                Dim Menu1 As New Controls.MenuItem
+                Menu1.Header = "Change to " + A
+                AddHandler Menu1.Click, New RoutedEventHandler(AddressOf ChangeProduct_ClickAsync)
+                Menu.Items.Add(Menu1)
+            Next
+
+            Dim Menu2 As New Controls.MenuItem
+            Menu2.Header = "Assign to me"
+            AddHandler Menu2.Click, New RoutedEventHandler(AddressOf AssignTome_ClickAsync)
+            MenuList.Items.Add(Menu2)
+
+            Menu2 = New Controls.MenuItem
+            Menu2.Header = "Open ODR"
+            AddHandler Menu2.Click, New RoutedEventHandler(AddressOf OpenODR_ClickAsync)
+            MenuList.Items.Add(Menu2)
+
+            Menu2 = New Controls.MenuItem
+            Menu2.Header = "Print ODR"
+            AddHandler Menu2.Click, New RoutedEventHandler(AddressOf PrintODR_ClickAsync)
+            MenuList.Items.Add(Menu2)
+
+            Menu2 = New Controls.MenuItem
+            Menu2.Header = "Open in SEA"
+            AddHandler Menu2.Click, New RoutedEventHandler(AddressOf OpenInSEA_ClickAsync)
+            MenuList.Items.Add(Menu2)
+
+            Menu2 = New Controls.MenuItem
+            Menu2.Header = "Open in CTO1"
+            AddHandler Menu2.Click, New RoutedEventHandler(AddressOf OpenInCT01_ClickAsync)
+            MenuList.Items.Add(Menu2)
+
+            MenuList.Items.Add(Menu)
+            DGOTHER.ContextMenu = MenuList
+            Menu.Tag = "DGSWGRPZ4"
+            DGSWGRPZ4.ContextMenu = MenuList
+            Menu.Tag = "DGRTI"
+            DGRTI.ContextMenu = MenuList
+            Menu.Tag = "DGBUSWAY"
+            DGBUSWAY.ContextMenu = MenuList
+            Menu.Tag = "DGSWBD"
+            DGSWBD.ContextMenu = MenuList
+            Menu.Tag = "DGGIS"
+            DGGIS.ContextMenu = MenuList
+            Menu.Tag = "DGDHVOX"
+            DGDHVOX.ContextMenu = MenuList
+            Menu.Tag = "DGHQRACK"
+            DGHQRACK.ContextMenu = MenuList
+        End Using
+
+
 
     End Sub
     Public Sub loadOSQueue()
-        DGMCC.ItemsSource = Nothing
-        DGMCC.Items.Clear()
-        DGFAB.ItemsSource = Nothing
-        DGFAB.Items.Clear()
+        DGSWGRPZ4.ItemsSource = Nothing
+        DGSWGRPZ4.Items.Clear()
+        DGHQRACK.ItemsSource = Nothing
+        DGHQRACK.Items.Clear()
         DGMYQueue.ItemsSource = Nothing
         DGMYQueue.Items.Clear()
-        DGBLANK.ItemsSource = Nothing
-        DGBLANK.Items.Clear()
-        DGCAPBANK.ItemsSource = Nothing
-        DGCAPBANK.Items.Clear()
-        DGBOXTRIM.ItemsSource = Nothing
-        DGBOXTRIM.Items.Clear()
-        DGVARSET.ItemsSource = Nothing
-        DGVARSET.Items.Clear()
-        DGCDO.ItemsSource = Nothing
-        DGCDO.Items.Clear()
-        DGDRIVES.ItemsSource = Nothing
-        DGDRIVES.Items.Clear()
-        DGPanelBoard.ItemsSource = Nothing
-        DGPanelBoard.Items.Clear()
-        DGMisc.ItemsSource = Nothing
-        DGMisc.Items.Clear()
-        DGMCE.ItemsSource = Nothing
-        DGMCE.Items.Clear()
+        DGOTHER.ItemsSource = Nothing
+        DGOTHER.Items.Clear()
+        DGBUSWAY.ItemsSource = Nothing
+        DGBUSWAY.Items.Clear()
+        DGRTI.ItemsSource = Nothing
+        DGRTI.Items.Clear()
+        DGSWBD.ItemsSource = Nothing
+        DGSWBD.Items.Clear()
+        DGGIS.ItemsSource = Nothing
+        DGGIS.Items.Clear()
+        DGDHVOX.ItemsSource = Nothing
+        DGDHVOX.Items.Clear()
+
         Using db As New BrossardDataWarehouseEntities
-            DGMCC.ItemsSource = (From record In db.OSQueues Where record.Product = "MCC ETO" And record.OS_SESA Is Nothing).ToList
-            DGFAB.ItemsSource = (From record In db.OSQueues Where (record.Product = "FAB" Or record.Product = "Spare parts") And record.OS_SESA Is Nothing).ToList
-            DGBLANK.ItemsSource = (From record In db.OSQueues Where record.Product = "Blank" And record.OS_SESA Is Nothing).ToList
-            DGBOXTRIM.ItemsSource = (From record In db.OSQueues Where record.Product = "BXTR" And record.OS_SESA Is Nothing).ToList
-            DGVARSET.ItemsSource = (From record In db.OSQueues Where record.Product = "Varset" And record.OS_SESA Is Nothing).ToList
-            DGCDO.ItemsSource = (From record In db.OSQueues Where record.Product = "CDO" And record.OS_SESA Is Nothing).ToList
-            DGDRIVES.ItemsSource = (From record In db.OSQueues Where record.Product = "Drives" And record.OS_SESA Is Nothing).ToList
-            DGPanelBoard.ItemsSource = (From record In db.OSQueues Where record.Product = "Panelboards" And record.OS_SESA Is Nothing).ToList
-            DGMisc.ItemsSource = (From record In db.OSQueues Where record.Product = "MISC" And record.OS_SESA Is Nothing).ToList
-            DGCAPBANK.ItemsSource = (From record In db.OSQueues Where record.Product = "Capbank" And record.OS_SESA Is Nothing).ToList
-            DGMCE.ItemsSource = (From record In db.OSQueues Where record.Product = "MCE" And record.OS_SESA Is Nothing).ToList
+            DGSWGRPZ4.ItemsSource = (From record In db.OSQueues Where record.Product = "SWGR/PZ4" And record.OS_SESA Is Nothing).ToList
+            DGHQRACK.ItemsSource = (From record In db.OSQueues Where (record.Product = "HQRACKS") And record.OS_SESA Is Nothing).ToList
+            DGOTHER.ItemsSource = (From record In db.OSQueues Where record.Product = "Other" And record.OS_SESA Is Nothing).ToList
+            DGRTI.ItemsSource = (From record In db.OSQueues Where record.Product = "RTI" And record.OS_SESA Is Nothing).ToList
+            DGSWBD.ItemsSource = (From record In db.OSQueues Where record.Product = "SWBD" And record.OS_SESA Is Nothing).ToList
+            DGGIS.ItemsSource = (From record In db.OSQueues Where record.Product = "GIS" And record.OS_SESA Is Nothing).ToList
+            DGDHVOX.ItemsSource = (From record In db.OSQueues Where record.Product = "DH/VOX" And record.OS_SESA Is Nothing).ToList
+            DGBUSWAY.ItemsSource = (From record In db.OSQueues Where record.Product = "BUSWAY" And record.OS_SESA Is Nothing).ToList
+
             DGMYQueue.ItemsSource = (From record In db.OSQueues Where record.OS_SESA = Environment.UserName.ToUpper And record.Processed Is Nothing).ToList
         End Using
     End Sub
@@ -190,17 +245,21 @@ Class MainWindow
                 Dim dirsFraction As Integer = Await Task(Of Integer).Run(Function()
                                                                              Dim Counter As Integer = 1
                                                                              For Each singleFile In allFiles
-                                                                                 Dim X = processODR(singleFile)
-                                                                                 Using db As New BrossardDataWarehouseEntities
-                                                                                     db.OSQueues.AddRange(X)
-                                                                                     db.SaveChanges()
-                                                                                 End Using
-                                                                                 token.ThrowIfCancellationRequested()
-                                                                                 If progress IsNot Nothing Then
-                                                                                     progress.Report(Format((Counter / fileCount) * 100, "0.0"))
+                                                                                 If singleFile.Name.Contains("ODR") Then
+                                                                                     Dim X = processODR(singleFile)
+                                                                                     Using db As New BrossardDataWarehouseEntities
+                                                                                         db.OSQueues.AddRange(X)
+                                                                                         db.SaveChanges()
+                                                                                     End Using
+                                                                                     token.ThrowIfCancellationRequested()
+                                                                                     If progress IsNot Nothing Then
+                                                                                         progress.Report(Format((Counter / fileCount) * 100, "0.0"))
+                                                                                     End If
+                                                                                     Counter = Counter + 1
+                                                                                     singleFile.MoveTo(Path.Combine(X1.FullName, singleFile.Name))
+                                                                                 Else
+                                                                                     singleFile.MoveTo(Path.Combine(X1.FullName, singleFile.Name))
                                                                                  End If
-                                                                                 Counter = Counter + 1
-                                                                                 singleFile.MoveTo(Path.Combine(X1.FullName, singleFile.Name))
                                                                              Next
                                                                              Return Status
                                                                          End Function)
@@ -228,7 +287,27 @@ Class MainWindow
         Return ActionStat
     End Function
 
+    Public Function IdentifySectionNumber(singleFile As System.IO.FileInfo, startPage As String, endPage As String)
+        Dim Bays As Integer
+        Try
+            Dim docPath As String = singleFile.FullName
+            Dim reader As PdfReader = New PdfReader(docPath)
+            For i As Integer = startPage To endPage
+                Dim its As New iTextSharp.text.pdf.parser.SimpleTextExtractionStrategy
+                Dim sOut = iTextSharp.text.pdf.parser.PdfTextExtractor.GetTextFromPage(reader, i, its)
+                Dim PagebyLine As String() = sOut.Split(vbLf)
+                For Each row As String In PagebyLine
+                    If row.Contains("Deep Enclosure") Then
+                        Dim SectExtract As String() = row.Split(New Char() {" "c})
+                        Bays = Integer.Parse(SectExtract(0))
+                    End If
+                Next
+            Next
+        Catch ex As Exception
 
+        End Try
+        Return Bays
+    End Function
     Public Function processODR(ODRFile As FileInfo) As List(Of OSQueue)
         Dim ODRextractList As New List(Of OSQueue)
         Dim docPath As String = ODRFile.FullName
@@ -255,9 +334,12 @@ Class MainWindow
                 ExtractPages(ODRFile.FullName, XX, StartPage, endpage)
                 ODRExtract.dateQueueGenerated = DateTime.Now
                 ODRExtract.QueueGeneratedBy = Environment.UserName.ToUpper
-                ODRExtract.InternalGroup = CheckIfIGA(ODRExtract.AccountNo)
+                'ODRExtract.InternalGroup = CheckIfIGA(ODRExtract.AccountNo)
                 Dim EndPageOut = iTextSharp.text.pdf.parser.PdfTextExtractor.GetTextFromPage(reader, endpage, its)
                 ODRExtract.ActionStat = FindActionStat(EndPageOut)
+                If ODRExtract.Product = "SWBD" Or ODRExtract.Product = "SWGR/PZ4" Then
+                    ODRExtract.Bays = IdentifySectionNumber(ODRFile, StartPage, endpage)
+                End If
                 ODRExtract.QueueGeneratedBy = ReturnNameFrmSesa(Environment.UserName.ToUpper)
                 ODRextractList.Add(ODRExtract)
                 ODRExtract = New OSQueue
@@ -321,7 +403,7 @@ Class MainWindow
                         Dim LIExtract As String() = PagebyLine(pagelineCount - 1).Split(New Char() {" "c})
                         Dim J As Integer = 0
                         For Each LiText In LIExtract
-                            If LiText = "046" Then
+                            If LiText = "057" Then
                                 LI = LIExtract(J - 1)
                                 SS = LIExtract(J + 1)
                                 SL = LIExtract(J + 2)
@@ -335,7 +417,7 @@ Class MainWindow
                         Next
 
                         If ODRExtract.LineCode = "" Then
-                            ODRExtract.Product = "Blank"
+                            ODRExtract.Product = "OTHER"
                         End If
 
                     End If
@@ -346,23 +428,18 @@ Class MainWindow
                     If row.Contains("Orig Prom") Or row.Contains("Orig/CLO") Then
                         Dim ShipDateExtract As String() = row.Split(New Char() {" "c})
                         If ShipDateExtract.Length > 11 Then
-                            'ODRExtract.CommitedTo = ShipDateExtract(9)
-                            'ODRExtract.OrigProm = ShipDateExtract(10)
-                            'ODRExtract.CurrProm = ShipDateExtract(11)
-                            If (ShipDateExtract(10).Contains(Today.Year) Or ShipDateExtract(10).Contains(Today.Year + 1)) Then ODRExtract.CommitedTo = ShipDateExtract(8)
-                            If (ShipDateExtract(11).Contains(Today.Year) Or ShipDateExtract(11).Contains(Today.Year + 1)) Then ODRExtract.OrigProm = ShipDateExtract(9)
+                            If (ShipDateExtract(11).Contains(Today.ToString("yy")) Or ShipDateExtract(11).Contains((Today.AddYears(1)).ToString("yy"))) Then ODRExtract.OrigProm = ShipDateExtract(9)
                         ElseIf ShipDateExtract.Length = 10 Then
-                            'ODRExtract.OrigProm = ShipDateExtract(9)
-                            'ODRExtract.CurrProm = ShipDateExtract(10)
-                            If (ShipDateExtract(8).Contains(Today.Year) Or ShipDateExtract(8).Contains(Today.Year + 1)) Then ODRExtract.CommitedTo = ShipDateExtract(8)
-                            If (ShipDateExtract(9).Contains(Today.Year) Or ShipDateExtract(9).Contains(Today.Year + 1)) Then ODRExtract.OrigProm = ShipDateExtract(9)
-
+                            If (ShipDateExtract(9).Contains(Today.ToString("yy")) Or ShipDateExtract(9).Contains((Today.AddYears(1)).ToString("yy"))) Then ODRExtract.OrigProm = ShipDateExtract(9)
                         End If
 
                     End If
-                    If PagebyLine(PagebyLine.Length - 1).Contains(Today.Year) Or PagebyLine(PagebyLine.Length - 1).Contains(Today.Year + 1) Then
-                        ODRExtract.CurrProm = PagebyLine(PagebyLine.Length - 1)
+                    If row.Contains("Curr On-Site") Then
+                        Dim CommittedtoExtract As String() = row.Split(New Char() {" "c})
+                        If (CommittedtoExtract(CommittedtoExtract.Length - 1).Contains(Today.ToString("yy")) Or CommittedtoExtract(CommittedtoExtract.Length - 1).Contains((Today.AddYears(1)).ToString("yy"))) Then ODRExtract.CommitedTo = CommittedtoExtract(CommittedtoExtract.Length - 1)
                     End If
+                    If PagebyLine(PagebyLine.Length - 1).Contains(Today.ToString("yy")) Or PagebyLine(PagebyLine.Length - 1).Contains(Today.AddYears(1).ToString("yy")) Then ODRExtract.CurrProm = PagebyLine(PagebyLine.Length - 1)
+
 
                     If row.Contains("Designations :") Then
                         ODRExtract.Designations = row
@@ -391,23 +468,34 @@ Class MainWindow
     End Function
     Public Function CheckIfIGA(AccNumber As String) As Boolean
         Dim IGA As Boolean = False
-        Using db As New BrossardDataWarehouseEntities
-            Dim rec = From record In db.InternalGroups Where record.AccNbr = AccNumber
-            If rec.Any Then IGA = True
-        End Using
+        'Using db As New BrossardDataWarehouseEntities
+        '    Dim rec = From record In db.InternalGroups Where record.AccNbr = AccNumber
+        '    If rec.Any Then IGA = True
+        'End Using
         Return IGA
     End Function
     Public Function IdentifyProductFromLC(LC As String)
         Dim Product As String
-        Using db As New BrossardDataWarehouseEntities
-            Dim rec = From record In db.LineCodes Where record.LineCode1 = LC
+        Using db As New STH_OrdersEntities
+            Dim rec = From record In db.ProductCodes Where record.LineCode = LC
+
             If rec.Any Then
-                Product = rec.First.Product
+                Product = GetProductFromProductLine(rec.First.ProductLine)
             Else
-                Product = "Blank"
+                Product = "OTHER"
             End If
         End Using
         Return Product
+    End Function
+    Public Function GetProductFromProductLine(ProductLine As String)
+        Using db As New BrossardDataWarehouseEntities
+            Dim rec = From record In db.ProductLineToProductNames Where record.ProductLine = ProductLine
+            If rec.Any Then
+                Return rec.First.ProductName
+            Else
+                Return "OTHER"
+            End If
+        End Using
     End Function
 
     Public Function IdentifyFirstPage(sOut As String)
@@ -493,56 +581,56 @@ Class MainWindow
 
     Private Async Function AssignTome_ClickAsync(sender As Object, e As RoutedEventArgs) As Task
         Select Case sender.tag
-            Case "DGMCC"
-                Dim X As List(Of OSQueue) = DGMCC.SelectedItems.OfType(Of OSQueue).ToList
+            Case "DGSWGRPZ4"
+                Dim X As List(Of OSQueue) = DGSWGRPZ4.SelectedItems.OfType(Of OSQueue).ToList
                 If X.Count = 0 Then
                     Await Me.ShowMessageAsync("Error", "Select at least one job!")
                 Else
                     AssignToMe(X)
                     loadOSQueue()
                 End If
-            Case "DGBOXTRIM"
-                Dim X As List(Of OSQueue) = DGBOXTRIM.SelectedItems.OfType(Of OSQueue).ToList
+            Case "DGRTI"
+                Dim X As List(Of OSQueue) = DGRTI.SelectedItems.OfType(Of OSQueue).ToList
                 If X.Count = 0 Then
                     Await Me.ShowMessageAsync("Error", "Select at least one job!")
                 Else
                     AssignToMe(X)
                     loadOSQueue()
                 End If
-            Case "DGCAPBANK"
-                Dim X As List(Of OSQueue) = DGCAPBANK.SelectedItems.OfType(Of OSQueue).ToList
+            Case "DGBUSWAY"
+                Dim X As List(Of OSQueue) = DGBUSWAY.SelectedItems.OfType(Of OSQueue).ToList
                 If X.Count = 0 Then
                     Await Me.ShowMessageAsync("Error", "Select at least one job!")
                 Else
                     AssignToMe(X)
                     loadOSQueue()
                 End If
-            Case "DGVARSET"
-                Dim X As List(Of OSQueue) = DGVARSET.SelectedItems.OfType(Of OSQueue).ToList
+            Case "DGSWBD"
+                Dim X As List(Of OSQueue) = DGSWBD.SelectedItems.OfType(Of OSQueue).ToList
                 If X.Count = 0 Then
                     Await Me.ShowMessageAsync("Error", "Select at least one job!")
                 Else
                     AssignToMe(X)
                     loadOSQueue()
                 End If
-            Case "DGCDO"
-                Dim X As List(Of OSQueue) = DGCDO.SelectedItems.OfType(Of OSQueue).ToList
+            Case "DGGIS"
+                Dim X As List(Of OSQueue) = DGGIS.SelectedItems.OfType(Of OSQueue).ToList
                 If X.Count = 0 Then
                     Await Me.ShowMessageAsync("Error", "Select at least one job!")
                 Else
                     AssignToMe(X)
                     loadOSQueue()
                 End If
-            Case "DGDRIVES"
-                Dim X As List(Of OSQueue) = DGDRIVES.SelectedItems.OfType(Of OSQueue).ToList
+            Case "DGDHVOX"
+                Dim X As List(Of OSQueue) = DGDHVOX.SelectedItems.OfType(Of OSQueue).ToList
                 If X.Count = 0 Then
                     Await Me.ShowMessageAsync("Error", "Select at least one job!")
                 Else
                     AssignToMe(X)
                     loadOSQueue()
                 End If
-            Case "DGFAB"
-                Dim X As List(Of OSQueue) = DGFAB.SelectedItems.OfType(Of OSQueue).ToList
+            Case "DGHQRACK"
+                Dim X As List(Of OSQueue) = DGHQRACK.SelectedItems.OfType(Of OSQueue).ToList
                 If X.Count = 0 Then
                     Await Me.ShowMessageAsync("Error", "Select at least one job!")
                 Else
@@ -550,29 +638,29 @@ Class MainWindow
                     loadOSQueue()
                 End If
             Case "DGPanelBoard"
-                Dim X As List(Of OSQueue) = DGPanelBoard.SelectedItems.OfType(Of OSQueue).ToList
-                If X.Count = 0 Then
-                    Await Me.ShowMessageAsync("Error", "Select at least one job!")
-                Else
-                    AssignToMe(X)
-                    loadOSQueue()
-                End If
+                'Dim X As List(Of OSQueue) = DGPanelBoard.SelectedItems.OfType(Of OSQueue).ToList
+                'If X.Count = 0 Then
+                '    Await Me.ShowMessageAsync("Error", "Select at least one job!")
+                'Else
+                '    AssignToMe(X)
+                '    loadOSQueue()
+                'End If
             Case "DGMisc"
-                Dim X As List(Of OSQueue) = DGMisc.SelectedItems.OfType(Of OSQueue).ToList
-                If X.Count = 0 Then
-                    Await Me.ShowMessageAsync("Error", "Select at least one job!")
-                Else
-                    AssignToMe(X)
-                    loadOSQueue()
-                End If
+                'Dim X As List(Of OSQueue) = DGMisc.SelectedItems.OfType(Of OSQueue).ToList
+                'If X.Count = 0 Then
+                '    Await Me.ShowMessageAsync("Error", "Select at least one job!")
+                'Else
+                '    AssignToMe(X)
+                '    loadOSQueue()
+                'End If
             Case "DGMCE"
-                Dim X As List(Of OSQueue) = DGMCE.SelectedItems.OfType(Of OSQueue).ToList
-                If X.Count = 0 Then
-                    Await Me.ShowMessageAsync("Error", "Select at least one job!")
-                Else
-                    AssignToMe(X)
-                    loadOSQueue()
-                End If
+                'Dim X As List(Of OSQueue) = DGMCE.SelectedItems.OfType(Of OSQueue).ToList
+                'If X.Count = 0 Then
+                '    Await Me.ShowMessageAsync("Error", "Select at least one job!")
+                'Else
+                '    AssignToMe(X)
+                '    loadOSQueue()
+                'End If
         End Select
     End Function
     Public Sub AssignToMe(X As List(Of OSQueue))
@@ -590,28 +678,22 @@ Class MainWindow
         Dim ParentTag = CType(menuItem.Parent, System.Windows.Controls.MenuItem).Tag
         Dim X As List(Of OSQueue) = New List(Of OSQueue)
         Select Case ParentTag
-            Case "DGMCC"
-                X = DGMCC.SelectedItems.OfType(Of OSQueue).ToList
-            Case "DGBOXTRIM"
-                X = DGBOXTRIM.SelectedItems.OfType(Of OSQueue).ToList
-            Case "DGCAPBANK"
-                X = DGCAPBANK.SelectedItems.OfType(Of OSQueue).ToList
-            Case "DGVARSET"
-                X = DGVARSET.SelectedItems.OfType(Of OSQueue).ToList
-            Case "DGCDO"
-                X = DGCDO.SelectedItems.OfType(Of OSQueue).ToList
-            Case "DGDRIVES"
-                X = DGDRIVES.SelectedItems.OfType(Of OSQueue).ToList
-            Case "DGFAB"
-                X = DGFAB.SelectedItems.OfType(Of OSQueue).ToList
-            Case "DGPanelBoard"
-                X = DGPanelBoard.SelectedItems.OfType(Of OSQueue).ToList
-            Case "DGMisc"
-                X = DGMisc.SelectedItems.OfType(Of OSQueue).ToList
-            Case "DGMCE"
-                X = DGMCE.SelectedItems.OfType(Of OSQueue).ToList
-            Case "DGBLANK"
-                X = DGBLANK.SelectedItems.OfType(Of OSQueue).ToList
+            Case "DGSWGRPZ4"
+                X = DGSWGRPZ4.SelectedItems.OfType(Of OSQueue).ToList
+            Case "DGRTI"
+                X = DGRTI.SelectedItems.OfType(Of OSQueue).ToList
+            Case "DGBUSWAY"
+                X = DGBUSWAY.SelectedItems.OfType(Of OSQueue).ToList
+            Case "DGSWBD"
+                X = DGSWBD.SelectedItems.OfType(Of OSQueue).ToList
+            Case "DGGIS"
+                X = DGGIS.SelectedItems.OfType(Of OSQueue).ToList
+            Case "DGDHVOX"
+                X = DGDHVOX.SelectedItems.OfType(Of OSQueue).ToList
+            Case "DGHQRACK"
+                X = DGHQRACK.SelectedItems.OfType(Of OSQueue).ToList
+            Case "DGOTHER"
+                X = DGOTHER.SelectedItems.OfType(Of OSQueue).ToList
         End Select
 
         If X.Count <> 0 Then
@@ -633,8 +715,8 @@ Class MainWindow
 
     Private Async Function OpenODR_ClickAsync(sender As Object, e As RoutedEventArgs) As Task
         Select Case sender.Tag
-            Case "DGMCC"
-                Dim X As List(Of OSQueue) = DGMCC.SelectedItems.OfType(Of OSQueue).ToList
+            Case "DGSWGRPZ4"
+                Dim X As List(Of OSQueue) = DGSWGRPZ4.SelectedItems.OfType(Of OSQueue).ToList
                 If X.Count <> 0 Then
                     For Each Y In X
                         Dim FF = Path.Combine(ODRFolder, Y.ODRPath)
@@ -646,8 +728,8 @@ Class MainWindow
                     Next
                 End If
 
-            Case "DGBOXTRIM"
-                Dim X As List(Of OSQueue) = DGBOXTRIM.SelectedItems.OfType(Of OSQueue).ToList
+            Case "DGRTI"
+                Dim X As List(Of OSQueue) = DGRTI.SelectedItems.OfType(Of OSQueue).ToList
                 If X.Count <> 0 Then
                     For Each Y In X
                         If My.Computer.FileSystem.FileExists(Path.Combine(ODRFolder, Y.ODRPath)) Then
@@ -657,8 +739,8 @@ Class MainWindow
                         End If
                     Next
                 End If
-            Case "DGCAPBANK"
-                Dim X As List(Of OSQueue) = DGCAPBANK.SelectedItems.OfType(Of OSQueue).ToList
+            Case "DGBUSWAY"
+                Dim X As List(Of OSQueue) = DGBUSWAY.SelectedItems.OfType(Of OSQueue).ToList
                 If X.Count <> 0 Then
                     For Each Y In X
                         If My.Computer.FileSystem.FileExists(Path.Combine(ODRFolder, Y.ODRPath)) Then
@@ -668,8 +750,8 @@ Class MainWindow
                         End If
                     Next
                 End If
-            Case "DGVARSET"
-                Dim X As List(Of OSQueue) = DGVARSET.SelectedItems.OfType(Of OSQueue).ToList
+            Case "DGSWBD"
+                Dim X As List(Of OSQueue) = DGSWBD.SelectedItems.OfType(Of OSQueue).ToList
                 If X.Count <> 0 Then
                     For Each Y In X
                         If My.Computer.FileSystem.FileExists(Path.Combine(ODRFolder, Y.ODRPath)) Then
@@ -679,8 +761,8 @@ Class MainWindow
                         End If
                     Next
                 End If
-            Case "DGCDO"
-                Dim X As List(Of OSQueue) = DGCDO.SelectedItems.OfType(Of OSQueue).ToList
+            Case "DGGIS"
+                Dim X As List(Of OSQueue) = DGGIS.SelectedItems.OfType(Of OSQueue).ToList
                 If X.Count <> 0 Then
                     For Each Y In X
                         If My.Computer.FileSystem.FileExists(Path.Combine(ODRFolder, Y.ODRPath)) Then
@@ -690,8 +772,8 @@ Class MainWindow
                         End If
                     Next
                 End If
-            Case "DGDRIVES"
-                Dim X As List(Of OSQueue) = DGDRIVES.SelectedItems.OfType(Of OSQueue).ToList
+            Case "DGDHVOX"
+                Dim X As List(Of OSQueue) = DGDHVOX.SelectedItems.OfType(Of OSQueue).ToList
                 If X.Count <> 0 Then
                     For Each Y In X
                         If My.Computer.FileSystem.FileExists(Path.Combine(ODRFolder, Y.ODRPath)) Then
@@ -701,8 +783,8 @@ Class MainWindow
                         End If
                     Next
                 End If
-            Case "DGFAB"
-                Dim X As List(Of OSQueue) = DGFAB.SelectedItems.OfType(Of OSQueue).ToList
+            Case "DGHQRACK"
+                Dim X As List(Of OSQueue) = DGHQRACK.SelectedItems.OfType(Of OSQueue).ToList
                 If X.Count <> 0 Then
                     For Each Y In X
                         If My.Computer.FileSystem.FileExists(Path.Combine(ODRFolder, Y.ODRPath)) Then
@@ -713,40 +795,40 @@ Class MainWindow
                     Next
                 End If
             Case "DGPanelBoard"
-                Dim X As List(Of OSQueue) = DGPanelBoard.SelectedItems.OfType(Of OSQueue).ToList
-                If X.Count <> 0 Then
-                    For Each Y In X
-                        If My.Computer.FileSystem.FileExists(Path.Combine(ODRFolder, Y.ODRPath)) Then
-                            Process.Start(Path.Combine(ODRFolder, Y.ODRPath))
-                        Else
-                            Await Me.ShowMessageAsync("Error", "File Not Found!")
-                        End If
-                    Next
-                End If
+                'Dim X As List(Of OSQueue) = DGPanelBoard.SelectedItems.OfType(Of OSQueue).ToList
+                'If X.Count <> 0 Then
+                '    For Each Y In X
+                '        If My.Computer.FileSystem.FileExists(Path.Combine(ODRFolder, Y.ODRPath)) Then
+                '            Process.Start(Path.Combine(ODRFolder, Y.ODRPath))
+                '        Else
+                '            Await Me.ShowMessageAsync("Error", "File Not Found!")
+                '        End If
+                '    Next
+                'End If
             Case "DGMisc"
-                Dim X As List(Of OSQueue) = DGMisc.SelectedItems.OfType(Of OSQueue).ToList
-                If X.Count <> 0 Then
-                    For Each Y In X
-                        If My.Computer.FileSystem.FileExists(Path.Combine(ODRFolder, Y.ODRPath)) Then
-                            Process.Start(Path.Combine(ODRFolder, Y.ODRPath))
-                        Else
-                            Await Me.ShowMessageAsync("Error", "File Not Found!")
-                        End If
-                    Next
-                End If
+                'Dim X As List(Of OSQueue) = DGMisc.SelectedItems.OfType(Of OSQueue).ToList
+                'If X.Count <> 0 Then
+                '    For Each Y In X
+                '        If My.Computer.FileSystem.FileExists(Path.Combine(ODRFolder, Y.ODRPath)) Then
+                '            Process.Start(Path.Combine(ODRFolder, Y.ODRPath))
+                '        Else
+                '            Await Me.ShowMessageAsync("Error", "File Not Found!")
+                '        End If
+                '    Next
+                'End If
             Case "DGMCE"
-                Dim X As List(Of OSQueue) = DGMCE.SelectedItems.OfType(Of OSQueue).ToList
-                If X.Count <> 0 Then
-                    For Each Y In X
-                        If My.Computer.FileSystem.FileExists(Path.Combine(ODRFolder, Y.ODRPath)) Then
-                            Process.Start(Path.Combine(ODRFolder, Y.ODRPath))
-                        Else
-                            Await Me.ShowMessageAsync("Error", "File Not Found!")
-                        End If
-                    Next
-                End If
-            Case "DGBLANK"
-                Dim X As List(Of OSQueue) = DGBLANK.SelectedItems.OfType(Of OSQueue).ToList
+                'Dim X As List(Of OSQueue) = DGMCE.SelectedItems.OfType(Of OSQueue).ToList
+                'If X.Count <> 0 Then
+                '    For Each Y In X
+                '        If My.Computer.FileSystem.FileExists(Path.Combine(ODRFolder, Y.ODRPath)) Then
+                '            Process.Start(Path.Combine(ODRFolder, Y.ODRPath))
+                '        Else
+                '            Await Me.ShowMessageAsync("Error", "File Not Found!")
+                '        End If
+                '    Next
+                'End If
+            Case "DGOTHER"
+                Dim X As List(Of OSQueue) = DGOTHER.SelectedItems.OfType(Of OSQueue).ToList
                 If X.Count <> 0 Then
                     For Each Y In X
                         If My.Computer.FileSystem.FileExists(Path.Combine(ODRFolder, Y.ODRPath)) Then
@@ -797,8 +879,8 @@ Class MainWindow
 
     Private Async Function PrintODR_ClickAsync(sender As Object, e As RoutedEventArgs) As Task
         Select Case sender.Tag
-            Case "DGMCC"
-                Dim X As List(Of OSQueue) = DGMCC.SelectedItems.OfType(Of OSQueue).ToList
+            Case "DGSWGRPZ4"
+                Dim X As List(Of OSQueue) = DGSWGRPZ4.SelectedItems.OfType(Of OSQueue).ToList
                 If X.Count <> 0 Then
                     For Each Y In X
                         Dim FF = Path.Combine(ODRFolder, Y.ODRPath)
@@ -809,8 +891,8 @@ Class MainWindow
                         End If
                     Next
                 End If
-            Case "DGBOXTRIM"
-                Dim X As List(Of OSQueue) = DGBOXTRIM.SelectedItems.OfType(Of OSQueue).ToList
+            Case "DGRTI"
+                Dim X As List(Of OSQueue) = DGRTI.SelectedItems.OfType(Of OSQueue).ToList
                 If X.Count <> 0 Then
                     For Each Y In X
                         If My.Computer.FileSystem.FileExists(Path.Combine(ODRFolder, Y.ODRPath)) Then
@@ -820,8 +902,8 @@ Class MainWindow
                         End If
                     Next
                 End If
-            Case "DGCAPBANK"
-                Dim X As List(Of OSQueue) = DGCAPBANK.SelectedItems.OfType(Of OSQueue).ToList
+            Case "DGBUSWAY"
+                Dim X As List(Of OSQueue) = DGBUSWAY.SelectedItems.OfType(Of OSQueue).ToList
                 If X.Count <> 0 Then
                     For Each Y In X
                         If My.Computer.FileSystem.FileExists(Path.Combine(ODRFolder, Y.ODRPath)) Then
@@ -831,8 +913,8 @@ Class MainWindow
                         End If
                     Next
                 End If
-            Case "DGVARSET"
-                Dim X As List(Of OSQueue) = DGVARSET.SelectedItems.OfType(Of OSQueue).ToList
+            Case "DGSWBD"
+                Dim X As List(Of OSQueue) = DGSWBD.SelectedItems.OfType(Of OSQueue).ToList
                 If X.Count <> 0 Then
                     For Each Y In X
                         If My.Computer.FileSystem.FileExists(Path.Combine(ODRFolder, Y.ODRPath)) Then
@@ -842,8 +924,8 @@ Class MainWindow
                         End If
                     Next
                 End If
-            Case "DGCDO"
-                Dim X As List(Of OSQueue) = DGCDO.SelectedItems.OfType(Of OSQueue).ToList
+            Case "DGGIS"
+                Dim X As List(Of OSQueue) = DGGIS.SelectedItems.OfType(Of OSQueue).ToList
                 If X.Count <> 0 Then
                     For Each Y In X
                         If My.Computer.FileSystem.FileExists(Path.Combine(ODRFolder, Y.ODRPath)) Then
@@ -853,8 +935,8 @@ Class MainWindow
                         End If
                     Next
                 End If
-            Case "DGDRIVES"
-                Dim X As List(Of OSQueue) = DGDRIVES.SelectedItems.OfType(Of OSQueue).ToList
+            Case "DGDHVOX"
+                Dim X As List(Of OSQueue) = DGDHVOX.SelectedItems.OfType(Of OSQueue).ToList
                 If X.Count <> 0 Then
                     For Each Y In X
                         If My.Computer.FileSystem.FileExists(Path.Combine(ODRFolder, Y.ODRPath)) Then
@@ -864,8 +946,8 @@ Class MainWindow
                         End If
                     Next
                 End If
-            Case "DGFAB"
-                Dim X As List(Of OSQueue) = DGFAB.SelectedItems.OfType(Of OSQueue).ToList
+            Case "DGHQRACK"
+                Dim X As List(Of OSQueue) = DGHQRACK.SelectedItems.OfType(Of OSQueue).ToList
                 If X.Count <> 0 Then
                     For Each Y In X
                         If My.Computer.FileSystem.FileExists(Path.Combine(ODRFolder, Y.ODRPath)) Then
@@ -876,40 +958,40 @@ Class MainWindow
                     Next
                 End If
             Case "DGPanelBoard"
-                Dim X As List(Of OSQueue) = DGPanelBoard.SelectedItems.OfType(Of OSQueue).ToList
-                If X.Count <> 0 Then
-                    For Each Y In X
-                        If My.Computer.FileSystem.FileExists(Path.Combine(ODRFolder, Y.ODRPath)) Then
-                            PrintFile(Path.Combine(ODRFolder, Y.ODRPath))
-                        Else
-                            Await Me.ShowMessageAsync("Error", "File Not Found!")
-                        End If
-                    Next
-                End If
+                'Dim X As List(Of OSQueue) = DGPanelBoard.SelectedItems.OfType(Of OSQueue).ToList
+                'If X.Count <> 0 Then
+                '    For Each Y In X
+                '        If My.Computer.FileSystem.FileExists(Path.Combine(ODRFolder, Y.ODRPath)) Then
+                '            PrintFile(Path.Combine(ODRFolder, Y.ODRPath))
+                '        Else
+                '            Await Me.ShowMessageAsync("Error", "File Not Found!")
+                '        End If
+                '    Next
+                'End If
             Case "DGMisc"
-                Dim X As List(Of OSQueue) = DGMisc.SelectedItems.OfType(Of OSQueue).ToList
-                If X.Count <> 0 Then
-                    For Each Y In X
-                        If My.Computer.FileSystem.FileExists(Path.Combine(ODRFolder, Y.ODRPath)) Then
-                            PrintFile(Path.Combine(ODRFolder, Y.ODRPath))
-                        Else
-                            Await Me.ShowMessageAsync("Error", "File Not Found!")
-                        End If
-                    Next
-                End If
+                'Dim X As List(Of OSQueue) = DGMisc.SelectedItems.OfType(Of OSQueue).ToList
+                'If X.Count <> 0 Then
+                '    For Each Y In X
+                '        If My.Computer.FileSystem.FileExists(Path.Combine(ODRFolder, Y.ODRPath)) Then
+                '            PrintFile(Path.Combine(ODRFolder, Y.ODRPath))
+                '        Else
+                '            Await Me.ShowMessageAsync("Error", "File Not Found!")
+                '        End If
+                '    Next
+                'End If
             Case "DGMCE"
-                Dim X As List(Of OSQueue) = DGMCE.SelectedItems.OfType(Of OSQueue).ToList
-                If X.Count <> 0 Then
-                    For Each Y In X
-                        If My.Computer.FileSystem.FileExists(Path.Combine(ODRFolder, Y.ODRPath)) Then
-                            PrintFile(Path.Combine(ODRFolder, Y.ODRPath))
-                        Else
-                            Await Me.ShowMessageAsync("Error", "File Not Found!")
-                        End If
-                    Next
-                End If
-            Case "DGBLANK"
-                Dim X As List(Of OSQueue) = DGBLANK.SelectedItems.OfType(Of OSQueue).ToList
+                'Dim X As List(Of OSQueue) = DGMCE.SelectedItems.OfType(Of OSQueue).ToList
+                'If X.Count <> 0 Then
+                '    For Each Y In X
+                '        If My.Computer.FileSystem.FileExists(Path.Combine(ODRFolder, Y.ODRPath)) Then
+                '            PrintFile(Path.Combine(ODRFolder, Y.ODRPath))
+                '        Else
+                '            Await Me.ShowMessageAsync("Error", "File Not Found!")
+                '        End If
+                '    Next
+                'End If
+            Case "DGOTHER"
+                Dim X As List(Of OSQueue) = DGOTHER.SelectedItems.OfType(Of OSQueue).ToList
                 If X.Count <> 0 Then
                     For Each Y In X
                         If My.Computer.FileSystem.FileExists(Path.Combine(ODRFolder, Y.ODRPath)) Then
@@ -934,78 +1016,78 @@ Class MainWindow
     End Function
     Private Async Function OpenInSEA_ClickAsync(sender As Object, e As RoutedEventArgs) As Task
         Select Case sender.Tag
-            Case "DGMCC"
-                Dim X As List(Of OSQueue) = DGMCC.SelectedItems.OfType(Of OSQueue).ToList
+            Case "DGSWGRPZ4"
+                Dim X As List(Of OSQueue) = DGSWGRPZ4.SelectedItems.OfType(Of OSQueue).ToList
                 If X.Count <> 0 Then
                     For Each Y In X
                         Process.Start("chrome.exe", "https://seadvantage.my.salesforce.com/_ui/search/ui/UnifiedSearchResults?searchType=2&str=" + Y.Q2CLISLSS.Substring(0, 8))
                     Next
                 End If
-            Case "DGBOXTRIM"
-                Dim X As List(Of OSQueue) = DGBOXTRIM.SelectedItems.OfType(Of OSQueue).ToList
+            Case "DGRTI"
+                Dim X As List(Of OSQueue) = DGRTI.SelectedItems.OfType(Of OSQueue).ToList
                 If X.Count <> 0 Then
                     For Each Y In X
                         Process.Start("chrome.exe", "https://seadvantage.my.salesforce.com/_ui/search/ui/UnifiedSearchResults?searchType=2&str=" + Y.Q2CLISLSS.Substring(0, 8))
                     Next
                 End If
-            Case "DGCAPBANK"
-                Dim X As List(Of OSQueue) = DGCAPBANK.SelectedItems.OfType(Of OSQueue).ToList
+            Case "DGBUSWAY"
+                Dim X As List(Of OSQueue) = DGBUSWAY.SelectedItems.OfType(Of OSQueue).ToList
                 If X.Count <> 0 Then
                     For Each Y In X
                         Process.Start("chrome.exe", "https://seadvantage.my.salesforce.com/_ui/search/ui/UnifiedSearchResults?searchType=2&str=" + Y.Q2CLISLSS.Substring(0, 8))
                     Next
                 End If
-            Case "DGVARSET"
-                Dim X As List(Of OSQueue) = DGVARSET.SelectedItems.OfType(Of OSQueue).ToList
+            Case "DGSWBD"
+                Dim X As List(Of OSQueue) = DGSWBD.SelectedItems.OfType(Of OSQueue).ToList
                 If X.Count <> 0 Then
                     For Each Y In X
                         Process.Start("chrome.exe", "https://seadvantage.my.salesforce.com/_ui/search/ui/UnifiedSearchResults?searchType=2&str=" + Y.Q2CLISLSS.Substring(0, 8))
                     Next
                 End If
-            Case "DGCDO"
-                Dim X As List(Of OSQueue) = DGCDO.SelectedItems.OfType(Of OSQueue).ToList
+            Case "DGGIS"
+                Dim X As List(Of OSQueue) = DGGIS.SelectedItems.OfType(Of OSQueue).ToList
                 If X.Count <> 0 Then
                     For Each Y In X
                         Process.Start("chrome.exe", "https://seadvantage.my.salesforce.com/_ui/search/ui/UnifiedSearchResults?searchType=2&str=" + Y.Q2CLISLSS.Substring(0, 8))
                     Next
                 End If
-            Case "DGDRIVES"
-                Dim X As List(Of OSQueue) = DGDRIVES.SelectedItems.OfType(Of OSQueue).ToList
+            Case "DGDHVOX"
+                Dim X As List(Of OSQueue) = DGDHVOX.SelectedItems.OfType(Of OSQueue).ToList
                 If X.Count <> 0 Then
                     For Each Y In X
                         Process.Start("chrome.exe", "https://seadvantage.my.salesforce.com/_ui/search/ui/UnifiedSearchResults?searchType=2&str=" + Y.Q2CLISLSS.Substring(0, 8))
                     Next
                 End If
-            Case "DGFAB"
-                Dim X As List(Of OSQueue) = DGFAB.SelectedItems.OfType(Of OSQueue).ToList
+            Case "DGHQRACK"
+                Dim X As List(Of OSQueue) = DGHQRACK.SelectedItems.OfType(Of OSQueue).ToList
                 If X.Count <> 0 Then
                     For Each Y In X
                         Process.Start("chrome.exe", "https://seadvantage.my.salesforce.com/_ui/search/ui/UnifiedSearchResults?searchType=2&str=" + Y.Q2CLISLSS.Substring(0, 8))
                     Next
                 End If
             Case "DGPanelBoard"
-                Dim X As List(Of OSQueue) = DGPanelBoard.SelectedItems.OfType(Of OSQueue).ToList
-                If X.Count <> 0 Then
-                    For Each Y In X
-                        Process.Start("chrome.exe", "https://seadvantage.my.salesforce.com/_ui/search/ui/UnifiedSearchResults?searchType=2&str=" + Y.Q2CLISLSS.Substring(0, 8))
-                    Next
-                End If
+                'Dim X As List(Of OSQueue) = DGPanelBoard.SelectedItems.OfType(Of OSQueue).ToList
+                'If X.Count <> 0 Then
+                '    For Each Y In X
+                '        Process.Start("chrome.exe", "https://seadvantage.my.salesforce.com/_ui/search/ui/UnifiedSearchResults?searchType=2&str=" + Y.Q2CLISLSS.Substring(0, 8))
+                '    Next
+                'End If
             Case "DGMisc"
-                Dim X As List(Of OSQueue) = DGMisc.SelectedItems.OfType(Of OSQueue).ToList
-                If X.Count <> 0 Then
-                    For Each Y In X
-                        Process.Start("chrome.exe", "https://seadvantage.my.salesforce.com/_ui/search/ui/UnifiedSearchResults?searchType=2&str=" + Y.Q2CLISLSS.Substring(0, 8))
-                    Next
-                End If
+                'Dim X As List(Of OSQueue) = DGMisc.SelectedItems.OfType(Of OSQueue).ToList
+                'If X.Count <> 0 Then
+                '    For Each Y In X
+                '        Process.Start("chrome.exe", "https://seadvantage.my.salesforce.com/_ui/search/ui/UnifiedSearchResults?searchType=2&str=" + Y.Q2CLISLSS.Substring(0, 8))
+                '    Next
+                'End If
             Case "DGMCE"
-                Dim X As List(Of OSQueue) = DGMCE.SelectedItems.OfType(Of OSQueue).ToList
-                If X.Count <> 0 Then
-                    For Each Y In X
-                        Process.Start("chrome.exe", "https://seadvantage.my.salesforce.com/_ui/search/ui/UnifiedSearchResults?searchType=2&str=" + Y.Q2CLISLSS.Substring(0, 8))
-                    Next
-                End If
-            Case "DGBLANK"
-                Dim X As List(Of OSQueue) = DGBLANK.SelectedItems.OfType(Of OSQueue).ToList
+                'Dim X As List(Of OSQueue) = DGMCE.SelectedItems.OfType(Of OSQueue).ToList
+                'If X.Count <> 0 Then
+                '    For Each Y In X
+                '        Process.Start("chrome.exe", "https://seadvantage.my.salesforce.com/_ui/search/ui/UnifiedSearchResults?searchType=2&str=" + Y.Q2CLISLSS.Substring(0, 8))
+                '    Next
+                'End If
+            Case "DGOTHER"
+                Dim X As List(Of OSQueue) = DGOTHER.SelectedItems.OfType(Of OSQueue).ToList
                 If X.Count <> 0 Then
                     For Each Y In X
                         Process.Start("chrome.exe", "https://seadvantage.my.salesforce.com/_ui/search/ui/UnifiedSearchResults?searchType=2&str=" + Y.Q2CLISLSS.Substring(0, 8))
@@ -1080,26 +1162,26 @@ Class MainWindow
     Private Async Function OpenInCT01_ClickAsync(sender As Object, e As RoutedEventArgs) As Task
         Dim X As OSQueue = New OSQueue
         Select Case sender.tag
-            Case "DGMCC"
-                X = DGMCC.SelectedItem
-            Case "DGBOXTRIM"
-                X = DGBOXTRIM.SelectedItem
-            Case "DGCAPBANK"
-                X = DGCAPBANK.SelectedItem
-            Case "DGVARSET"
-                X = DGVARSET.SelectedItem
-            Case "DGCDO"
-                X = DGCDO.SelectedItem
-            Case "DGDRIVES"
-                X = DGDRIVES.SelectedItem
-            Case "DGFAB"
-                X = DGFAB.SelectedItem
+            Case "DGSWGRPZ4"
+                X = DGSWGRPZ4.SelectedItem
+            Case "DGRTI"
+                X = DGRTI.SelectedItem
+            Case "DGBUSWAY"
+                X = DGBUSWAY.SelectedItem
+            Case "DGSWBD"
+                X = DGSWBD.SelectedItem
+            Case "DGGIS"
+                X = DGGIS.SelectedItem
+            Case "DGDHVOX"
+                X = DGDHVOX.SelectedItem
+            Case "DGHQRACK"
+                X = DGHQRACK.SelectedItem
             Case "DGPanelBoard"
-                X = DGPanelBoard.SelectedItem
+                'X = DGPanelBoard.SelectedItem
             Case "DGMisc"
-                X = DGMisc.SelectedItem
+                'X = DGMisc.SelectedItem
             Case "DGMCE"
-                X = DGMCE.SelectedItem
+                'X = DGMCE.SelectedItem
             Case "DGMYQueue"
                 X = DGMYQueue.SelectedItem
         End Select

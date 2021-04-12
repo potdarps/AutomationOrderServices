@@ -390,33 +390,11 @@
                                 <Grid.DataContext>
                                     <local:VM1/>
                                 </Grid.DataContext>
-                                <DataGrid  x:Name="DGMCC" FontSize="12"  Foreground="Black"  CanUserAddRows="false"   AutoGenerateColumns="False" FontFamily="Verdana"   Background="{x:Null}" BorderBrush="{x:Null}"  GridLinesVisibility="Horizontal" 
+                                <DataGrid  x:Name="DGSWGRPZ4" FontSize="12"  Foreground="Black"  CanUserAddRows="false"   AutoGenerateColumns="False" FontFamily="Verdana"   Background="{x:Null}" BorderBrush="{x:Null}"  GridLinesVisibility="Horizontal" 
                                        Grid.Row="0"   >
                                     <DataGrid.Resources >
                                         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Themes/Light.Blue.xaml" />
-                                    </DataGrid.Resources>
-                                    <DataGrid.ContextMenu >
-                                        <ContextMenu >
-                                            <MenuItem Header="Assign Product"  Tag="DGMCC" >
-                                                <MenuItem Header="Shift to MCC ETO" Click="ChangeProduct_ClickAsync" Tag="MCC ETO"/>
-                                                <MenuItem Header="Shift to Panelboards" Click="ChangeProduct_ClickAsync" Tag="Panelboards"/>
-                                                <MenuItem Header="Shift to BXTR" Click="ChangeProduct_ClickAsync" Tag="BXTR"/>
-                                                <MenuItem Header="Shift to MCE" Click="ChangeProduct_ClickAsync" Tag="MCE"/>
-                                                <MenuItem Header="Shift to CDO" Click="ChangeProduct_ClickAsync" Tag="CDO"/>
-                                                <MenuItem Header="Shift to Varset" Click="ChangeProduct_ClickAsync" Tag="Varset"/>
-                                                <MenuItem Header="Shift to Spare parts" Click="ChangeProduct_ClickAsync" Tag="Spare parts"/>
-                                                <MenuItem Header="Shift to Drives" Click="ChangeProduct_ClickAsync" Tag="Drives"/>
-                                                <MenuItem Header="Shift to MISC" Click="ChangeProduct_ClickAsync" Tag="MISC"/>
-                                                <MenuItem Header="Shift to Capbank" Click="ChangeProduct_ClickAsync" Tag="Capbank"/>
-                                                <MenuItem Header="Shift to FAB" Click="ChangeProduct_ClickAsync" Tag="FAB"/>
-                                            </MenuItem>
-                                            <MenuItem Header="Assign to me" Click="AssignTome_ClickAsync" Tag="DGMCC"/>
-                                            <MenuItem Header="Open ODR" Click="OpenODR_ClickAsync" Tag="DGMCC"/>
-                                            <MenuItem Header="Print ODR" Click="PrintODR_ClickAsync" Tag="DGMCC"/>
-                                            <MenuItem Header="Open in SEA" Click="OpenInSEA_ClickAsync" Tag="DGMCC"/>
-                                            <MenuItem Header="Open in CT01" Click="OpenInCT01_ClickAsync" Tag="DGMCC"/>
-                                        </ContextMenu>
-                                    </DataGrid.ContextMenu>
+                                    </DataGrid.Resources>                                 
                                     
                                     <DataGrid.ColumnHeaderStyle>
                                         <Style TargetType="DataGridColumnHeader">
@@ -489,7 +467,6 @@
                                         <DataGridTextColumn  Header="Queue Gen Date" Width="auto" IsReadOnly="True" Binding ="{Binding dateQueueGenerated,StringFormat=d}"/>
                                         <DataGridTextColumn  Header="Queue Gen By" Width="auto" IsReadOnly="True" Binding ="{Binding QueueGeneratedBy}"/>
                                     </DataGrid.Columns>
-
                                 </DataGrid>
                             </Grid>
                         </Controls:HamburgerMenuIconItem.Tag>
@@ -500,33 +477,11 @@
                                 <Grid.DataContext>
                                     <local:VM1/>
                                 </Grid.DataContext>
-                                <DataGrid  x:Name="DGBOXTRIM" FontSize="12"  Foreground="Black"  CanUserAddRows="false"   AutoGenerateColumns="False" FontFamily="Verdana"   Background="{x:Null}" BorderBrush="{x:Null}"  GridLinesVisibility="All" 
+                                <DataGrid  x:Name="DGRTI" FontSize="12"  Foreground="Black"  CanUserAddRows="false"   AutoGenerateColumns="False" FontFamily="Verdana"   Background="{x:Null}" BorderBrush="{x:Null}"  GridLinesVisibility="All" 
                                        Grid.Row="0">
                                     <DataGrid.Resources >
                                         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Themes/Light.Blue.xaml" />
-                                    </DataGrid.Resources>
-                                    <DataGrid.ContextMenu >
-                                        <ContextMenu >
-                                            <MenuItem Header="Assign Product"  Tag="DGBOXTRIM" >
-                                                <MenuItem Header="Shift to MCC ETO" Click="ChangeProduct_ClickAsync" Tag="MCC ETO"/>
-                                                <MenuItem Header="Shift to Panelboards" Click="ChangeProduct_ClickAsync" Tag="Panelboards"/>
-                                                <MenuItem Header="Shift to BXTR" Click="ChangeProduct_ClickAsync" Tag="BXTR"/>
-                                                <MenuItem Header="Shift to MCE" Click="ChangeProduct_ClickAsync" Tag="MCE"/>
-                                                <MenuItem Header="Shift to CDO" Click="ChangeProduct_ClickAsync" Tag="CDO"/>
-                                                <MenuItem Header="Shift to Varset" Click="ChangeProduct_ClickAsync" Tag="Varset"/>
-                                                <MenuItem Header="Shift to Spare parts" Click="ChangeProduct_ClickAsync" Tag="Spare parts"/>
-                                                <MenuItem Header="Shift to Drives" Click="ChangeProduct_ClickAsync" Tag="Drives"/>
-                                                <MenuItem Header="Shift to MISC" Click="ChangeProduct_ClickAsync" Tag="MISC"/>
-                                                <MenuItem Header="Shift to Capbank" Click="ChangeProduct_ClickAsync" Tag="Capbank"/>
-                                                <MenuItem Header="Shift to FAB" Click="ChangeProduct_ClickAsync" Tag="FAB"/>
-                                            </MenuItem>
-                                            <MenuItem Header="Assign to me" Click="AssignTome_ClickAsync" Tag="DGBOXTRIM"/>
-                                            <MenuItem Header="Open ODR" Click="OpenODR_ClickAsync" Tag="DGBOXTRIM"/>
-                                            <MenuItem Header="Print ODR" Click="PrintODR_ClickAsync" Tag="DGBOXTRIM"/>
-                                            <MenuItem Header="Open in SEA" Click="OpenInSEA_ClickAsync" Tag="DGBOXTRIM"/>
-                                            <MenuItem Header="Open in CT01" Click="OpenInCT01_ClickAsync" Tag="DGBOXTRIM"/>
-                                        </ContextMenu>
-                                    </DataGrid.ContextMenu>
+                                    </DataGrid.Resources>                                  
 
                                     <DataGrid.ColumnHeaderStyle>
                                         <Style TargetType="DataGridColumnHeader">
@@ -610,33 +565,12 @@
                                 <Grid.DataContext>
                                     <local:VM1/>
                                 </Grid.DataContext>
-                                <DataGrid  x:Name="DGCAPBANK" FontSize="12"  Foreground="Black"  CanUserAddRows="false"   AutoGenerateColumns="False" FontFamily="Verdana"   Background="{x:Null}" BorderBrush="{x:Null}"  GridLinesVisibility="All" 
+                                <DataGrid  x:Name="DGBUSWAY" FontSize="12"  Foreground="Black"  CanUserAddRows="false"   AutoGenerateColumns="False" FontFamily="Verdana"   Background="{x:Null}" BorderBrush="{x:Null}"  GridLinesVisibility="All" 
                                        Grid.Row="0">
                                     <DataGrid.Resources >
                                         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Themes/Light.Blue.xaml" />
                                     </DataGrid.Resources>
-                                    <DataGrid.ContextMenu >
-                                        <ContextMenu >
-                                            <MenuItem Header="Assign Product"  Tag="DGCAPBANK" >
-                                                <MenuItem Header="Shift to MCC ETO" Click="ChangeProduct_ClickAsync" Tag="MCC ETO"/>
-                                                <MenuItem Header="Shift to Panelboards" Click="ChangeProduct_ClickAsync" Tag="Panelboards"/>
-                                                <MenuItem Header="Shift to BXTR" Click="ChangeProduct_ClickAsync" Tag="BXTR"/>
-                                                <MenuItem Header="Shift to MCE" Click="ChangeProduct_ClickAsync" Tag="MCE"/>
-                                                <MenuItem Header="Shift to CDO" Click="ChangeProduct_ClickAsync" Tag="CDO"/>
-                                                <MenuItem Header="Shift to Varset" Click="ChangeProduct_ClickAsync" Tag="Varset"/>
-                                                <MenuItem Header="Shift to Spare parts" Click="ChangeProduct_ClickAsync" Tag="Spare parts"/>
-                                                <MenuItem Header="Shift to Drives" Click="ChangeProduct_ClickAsync" Tag="Drives"/>
-                                                <MenuItem Header="Shift to MISC" Click="ChangeProduct_ClickAsync" Tag="MISC"/>
-                                                <MenuItem Header="Shift to Capbank" Click="ChangeProduct_ClickAsync" Tag="Capbank"/>
-                                                <MenuItem Header="Shift to FAB" Click="ChangeProduct_ClickAsync" Tag="FAB"/>
-                                            </MenuItem>
-                                            <MenuItem Header="Assign to me" Click="AssignTome_ClickAsync" Tag="DGCAPBANK"/>
-                                            <MenuItem Header="Open ODR" Click="OpenODR_ClickAsync" Tag="DGCAPBANK"/>
-                                            <MenuItem Header="Print ODR" Click="PrintODR_ClickAsync" Tag="DGCAPBANK"/>
-                                            <MenuItem Header="Open in SEA" Click="OpenInSEA_ClickAsync" Tag="DGCAPBANK"/>
-                                            <MenuItem Header="Open in CT01" Click="OpenInCT01_ClickAsync" Tag="DGCAPBANK"/>
-                                        </ContextMenu>
-                                    </DataGrid.ContextMenu>
+                                   
 
                                     <DataGrid.ColumnHeaderStyle>
                                         <Style TargetType="DataGridColumnHeader">
@@ -720,14 +654,14 @@
                                 <Grid.DataContext>
                                     <local:VM1/>
                                 </Grid.DataContext>
-                                <DataGrid  x:Name="DGVARSET" FontSize="12"  Foreground="Black"  CanUserAddRows="false"   AutoGenerateColumns="False" FontFamily="Verdana"   Background="{x:Null}" BorderBrush="{x:Null}"  GridLinesVisibility="All" 
+                                <DataGrid  x:Name="DGSWBD" FontSize="12"  Foreground="Black"  CanUserAddRows="false"   AutoGenerateColumns="False" FontFamily="Verdana"   Background="{x:Null}" BorderBrush="{x:Null}"  GridLinesVisibility="All" 
                                        Grid.Row="0">
                                     <DataGrid.Resources >
                                         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Themes/Light.Blue.xaml" />
                                     </DataGrid.Resources>
                                     <DataGrid.ContextMenu >
                                         <ContextMenu >
-                                            <MenuItem Header="Assign Product"   Tag="DGVARSET">
+                                            <MenuItem Header="Assign Product"   Tag="DGSWBD">
                                                 <MenuItem Header="Shift to MCC ETO" Click="ChangeProduct_ClickAsync" Tag="MCC ETO"/>
                                                 <MenuItem Header="Shift to Panelboards" Click="ChangeProduct_ClickAsync" Tag="Panelboards"/>
                                                 <MenuItem Header="Shift to BXTR" Click="ChangeProduct_ClickAsync" Tag="BXTR"/>
@@ -740,11 +674,11 @@
                                                 <MenuItem Header="Shift to Capbank" Click="ChangeProduct_ClickAsync" Tag="Capbank"/>
                                                 <MenuItem Header="Shift to FAB" Click="ChangeProduct_ClickAsync" Tag="FAB"/>
                                             </MenuItem>
-                                            <MenuItem Header="Assign to me" Click="AssignTome_ClickAsync" Tag="DGVARSET"/>
-                                            <MenuItem Header="Open ODR" Click="OpenODR_ClickAsync" Tag="DGVARSET"/>
-                                            <MenuItem Header="Print ODR" Click="PrintODR_ClickAsync" Tag="DGVARSET"/>
-                                            <MenuItem Header="Open in SEA" Click="OpenInSEA_ClickAsync" Tag="DGVARSET"/>
-                                            <MenuItem Header="Open in CT01" Click="OpenInCT01_ClickAsync" Tag="DGVARSET"/>
+                                            <MenuItem Header="Assign to me" Click="AssignTome_ClickAsync" Tag="DGSWBD"/>
+                                            <MenuItem Header="Open ODR" Click="OpenODR_ClickAsync" Tag="DGSWBD"/>
+                                            <MenuItem Header="Print ODR" Click="PrintODR_ClickAsync" Tag="DGSWBD"/>
+                                            <MenuItem Header="Open in SEA" Click="OpenInSEA_ClickAsync" Tag="DGSWBD"/>
+                                            <MenuItem Header="Open in CT01" Click="OpenInCT01_ClickAsync" Tag="DGSWBD"/>
                                         </ContextMenu>
                                     </DataGrid.ContextMenu>
 
@@ -830,33 +764,12 @@
                                 <Grid.DataContext>
                                     <local:VM1/>
                                 </Grid.DataContext>
-                                <DataGrid  x:Name="DGCDO" FontSize="12"  Foreground="Black"  CanUserAddRows="false"   AutoGenerateColumns="False" FontFamily="Verdana"   Background="{x:Null}" BorderBrush="{x:Null}"  GridLinesVisibility="All" 
+                                <DataGrid  x:Name="DGGIS" FontSize="12"  Foreground="Black"  CanUserAddRows="false"   AutoGenerateColumns="False" FontFamily="Verdana"   Background="{x:Null}" BorderBrush="{x:Null}"  GridLinesVisibility="All" 
                                        Grid.Row="0">
                                     <DataGrid.Resources >
                                         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Themes/Light.Blue.xaml" />
                                     </DataGrid.Resources>
-                                    <DataGrid.ContextMenu >
-                                        <ContextMenu >
-                                            <MenuItem Header="Assign Product"  Tag="DGCDO" >
-                                                <MenuItem Header="Shift to MCC ETO" Click="ChangeProduct_ClickAsync" Tag="MCC ETO"/>
-                                                <MenuItem Header="Shift to Panelboards" Click="ChangeProduct_ClickAsync" Tag="Panelboards"/>
-                                                <MenuItem Header="Shift to BXTR" Click="ChangeProduct_ClickAsync" Tag="BXTR"/>
-                                                <MenuItem Header="Shift to MCE" Click="ChangeProduct_ClickAsync" Tag="MCE"/>
-                                                <MenuItem Header="Shift to CDO" Click="ChangeProduct_ClickAsync" Tag="CDO"/>
-                                                <MenuItem Header="Shift to Varset" Click="ChangeProduct_ClickAsync" Tag="Varset"/>
-                                                <MenuItem Header="Shift to Spare parts" Click="ChangeProduct_ClickAsync" Tag="Spare parts"/>
-                                                <MenuItem Header="Shift to Drives" Click="ChangeProduct_ClickAsync" Tag="Drives"/>
-                                                <MenuItem Header="Shift to MISC" Click="ChangeProduct_ClickAsync" Tag="MISC"/>
-                                                <MenuItem Header="Shift to Capbank" Click="ChangeProduct_ClickAsync" Tag="Capbank"/>
-                                                <MenuItem Header="Shift to FAB" Click="ChangeProduct_ClickAsync" Tag="FAB"/>
-                                            </MenuItem>
-                                            <MenuItem Header="Assign to me" Click="AssignTome_ClickAsync" Tag="DGCDO"/>
-                                            <MenuItem Header="Open ODR" Click="OpenODR_ClickAsync" Tag="DGCDO"/>
-                                            <MenuItem Header="Print ODR" Click="PrintODR_ClickAsync" Tag="DGCDO"/>
-                                            <MenuItem Header="Open in SEA" Click="OpenInSEA_ClickAsync" Tag="DGCDO"/>
-                                            <MenuItem Header="Open in CT01" Click="OpenInCT01_ClickAsync" Tag="DGCDO"/>
-                                        </ContextMenu>
-                                    </DataGrid.ContextMenu>
+                                   
 
                                     <DataGrid.ColumnHeaderStyle>
                                         <Style TargetType="DataGridColumnHeader">
@@ -940,33 +853,12 @@
                                 <Grid.DataContext>
                                     <local:VM1/>
                                 </Grid.DataContext>
-                                <DataGrid  x:Name="DGDRIVES" FontSize="12"  Foreground="Black"  CanUserAddRows="false"   AutoGenerateColumns="False" FontFamily="Verdana"   Background="{x:Null}" BorderBrush="{x:Null}"  GridLinesVisibility="All" 
+                                <DataGrid  x:Name="DGDHVOX" FontSize="12"  Foreground="Black"  CanUserAddRows="false"   AutoGenerateColumns="False" FontFamily="Verdana"   Background="{x:Null}" BorderBrush="{x:Null}"  GridLinesVisibility="All" 
                                        Grid.Row="0">
                                     <DataGrid.Resources >
                                         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Themes/Light.Blue.xaml" />
                                     </DataGrid.Resources>
-                                    <DataGrid.ContextMenu >
-                                        <ContextMenu >
-                                            <MenuItem Header="Assign Product" Tag="DGDRIVES" >
-                                                <MenuItem Header="Shift to MCC ETO" Click="ChangeProduct_ClickAsync" Tag="MCC ETO"/>
-                                                <MenuItem Header="Shift to Panelboards" Click="ChangeProduct_ClickAsync" Tag="Panelboards"/>
-                                                <MenuItem Header="Shift to BXTR" Click="ChangeProduct_ClickAsync" Tag="BXTR"/>
-                                                <MenuItem Header="Shift to MCE" Click="ChangeProduct_ClickAsync" Tag="MCE"/>
-                                                <MenuItem Header="Shift to CDO" Click="ChangeProduct_ClickAsync" Tag="CDO"/>
-                                                <MenuItem Header="Shift to Varset" Click="ChangeProduct_ClickAsync" Tag="Varset"/>
-                                                <MenuItem Header="Shift to Spare parts" Click="ChangeProduct_ClickAsync" Tag="Spare parts"/>
-                                                <MenuItem Header="Shift to Drives" Click="ChangeProduct_ClickAsync" Tag="Drives"/>
-                                                <MenuItem Header="Shift to MISC" Click="ChangeProduct_ClickAsync" Tag="MISC"/>
-                                                <MenuItem Header="Shift to Capbank" Click="ChangeProduct_ClickAsync" Tag="Capbank"/>
-                                                <MenuItem Header="Shift to FAB" Click="ChangeProduct_ClickAsync" Tag="FAB"/>
-                                            </MenuItem>
-                                            <MenuItem Header="Assign to me" Click="AssignTome_ClickAsync" Tag="DGDRIVES"/>
-                                            <MenuItem Header="Open ODR" Click="OpenODR_ClickAsync" Tag="DGDRIVES"/>
-                                            <MenuItem Header="Print ODR" Click="PrintODR_ClickAsync" Tag="DGDRIVES"/>
-                                            <MenuItem Header="Open in SEA" Click="OpenInSEA_ClickAsync" Tag="DGDRIVES"/>
-                                            <MenuItem Header="Open in CT01" Click="OpenInCT01_ClickAsync" Tag="DGDRIVES"/>
-                                        </ContextMenu>
-                                    </DataGrid.ContextMenu>
+                                   
 
                                     <DataGrid.ColumnHeaderStyle>
                                         <Style TargetType="DataGridColumnHeader">
@@ -1050,33 +942,12 @@
                                 <Grid.DataContext>
                                     <local:VM1/>
                                 </Grid.DataContext>
-                                <DataGrid  x:Name="DGFAB" FontSize="12"  Foreground="Black"  CanUserAddRows="false"   AutoGenerateColumns="False" FontFamily="Verdana"   Background="{x:Null}" BorderBrush="{x:Null}"  GridLinesVisibility="All" 
+                                <DataGrid  x:Name="DGHQRACK" FontSize="12"  Foreground="Black"  CanUserAddRows="false"   AutoGenerateColumns="False" FontFamily="Verdana"   Background="{x:Null}" BorderBrush="{x:Null}"  GridLinesVisibility="All" 
                                        Grid.Row="0">
                                     <DataGrid.Resources >
                                         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Themes/Light.Blue.xaml" />
                                     </DataGrid.Resources>
-                                    <DataGrid.ContextMenu >
-                                        <ContextMenu >
-                                            <MenuItem Header="Assign Product"  Tag="DGFAB" >
-                                                <MenuItem Header="Shift to MCC ETO" Click="ChangeProduct_ClickAsync" Tag="MCC ETO"/>
-                                                <MenuItem Header="Shift to Panelboards" Click="ChangeProduct_ClickAsync" Tag="Panelboards"/>
-                                                <MenuItem Header="Shift to BXTR" Click="ChangeProduct_ClickAsync" Tag="BXTR"/>
-                                                <MenuItem Header="Shift to MCE" Click="ChangeProduct_ClickAsync" Tag="MCE"/>
-                                                <MenuItem Header="Shift to CDO" Click="ChangeProduct_ClickAsync" Tag="CDO"/>
-                                                <MenuItem Header="Shift to Varset" Click="ChangeProduct_ClickAsync" Tag="Varset"/>
-                                                <MenuItem Header="Shift to Spare parts" Click="ChangeProduct_ClickAsync" Tag="Spare parts"/>
-                                                <MenuItem Header="Shift to Drives" Click="ChangeProduct_ClickAsync" Tag="Drives"/>
-                                                <MenuItem Header="Shift to MISC" Click="ChangeProduct_ClickAsync" Tag="MISC"/>
-                                                <MenuItem Header="Shift to Capbank" Click="ChangeProduct_ClickAsync" Tag="Capbank"/>
-                                                <MenuItem Header="Shift to FAB" Click="ChangeProduct_ClickAsync" Tag="FAB"/>
-                                            </MenuItem>
-                                            <MenuItem Header="Assign to me" Click="AssignTome_ClickAsync" Tag="DGFAB"/>
-                                            <MenuItem Header="Open ODR" Click="OpenODR_ClickAsync" Tag="DGFAB"/>
-                                            <MenuItem Header="Print ODR" Click="PrintODR_ClickAsync" Tag="DGFAB"/>
-                                            <MenuItem Header="Open in SEA" Click="OpenInSEA_ClickAsync" Tag="DGFAB"/>
-                                            <MenuItem Header="Open in CT01" Click="OpenInCT01_ClickAsync" Tag="DGFAB"/>
-                                        </ContextMenu>
-                                    </DataGrid.ContextMenu>
+                                    
                                     <DataGrid.ColumnHeaderStyle>
                                         <Style TargetType="DataGridColumnHeader">
                                             <Setter Property="ContentTemplate">
@@ -1154,38 +1025,18 @@
                         </Controls:HamburgerMenuIconItem.Tag>
                     </Controls:HamburgerMenuIconItem>
                      
-                    <Controls:HamburgerMenuIconItem Icon="{iconPacks:Material Kind=Tools}" Label="Blank">
+                    <Controls:HamburgerMenuIconItem Icon="{iconPacks:Material Kind=Tools}" Label="Other">
                         <Controls:HamburgerMenuIconItem.Tag>
                             <Grid x:Name="GridBLANK" Margin="2">
                                 <Grid.DataContext>
                                     <local:VM1/>
                                 </Grid.DataContext>
-                                <DataGrid  x:Name="DGBLANK" FontSize="12"  Foreground="Black"  CanUserAddRows="false"   AutoGenerateColumns="False" FontFamily="Verdana"   Background="{x:Null}" BorderBrush="{x:Null}"  GridLinesVisibility="All" 
+                                <DataGrid  x:Name="DGOTHER" FontSize="12"  Foreground="Black"  CanUserAddRows="false"   AutoGenerateColumns="False" FontFamily="Verdana"   Background="{x:Null}" BorderBrush="{x:Null}"  GridLinesVisibility="All" 
                                        Grid.Row="0">
                                     <DataGrid.Resources >
                                         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Themes/Light.Blue.xaml" />
                                     </DataGrid.Resources>
-                                    <DataGrid.ContextMenu >
-                                        <ContextMenu >
-                                            <MenuItem Header="Assign Product" Tag="DGBLANK"  >
-                                                <MenuItem Header="Shift to MCC ETO" Click="ChangeProduct_ClickAsync" Tag="MCC ETO"/>
-                                                <MenuItem Header="Shift to Panelboards" Click="ChangeProduct_ClickAsync" Tag="Panelboards"/>
-                                                <MenuItem Header="Shift to BXTR" Click="ChangeProduct_ClickAsync" Tag="BXTR"/>
-                                                <MenuItem Header="Shift to MCE" Click="ChangeProduct_ClickAsync" Tag="MCE"/>
-                                                <MenuItem Header="Shift to CDO" Click="ChangeProduct_ClickAsync" Tag="CDO"/>
-                                                <MenuItem Header="Shift to Varset" Click="ChangeProduct_ClickAsync" Tag="Varset"/>
-                                                <MenuItem Header="Shift to Spare parts" Click="ChangeProduct_ClickAsync" Tag="Spare parts"/>
-                                                <MenuItem Header="Shift to Drives" Click="ChangeProduct_ClickAsync" Tag="Drives"/>
-                                                <MenuItem Header="Shift to MISC" Click="ChangeProduct_ClickAsync" Tag="MISC"/>
-                                                <MenuItem Header="Shift to Capbank" Click="ChangeProduct_ClickAsync" Tag="Capbank"/>
-                                                <MenuItem Header="Shift to FAB" Click="ChangeProduct_ClickAsync" Tag="FAB"/>
-                                            </MenuItem>
-                                            <MenuItem Header="Open ODR" Click="OpenODR_ClickAsync" Tag="DGBLANK"/>
-                                            <MenuItem Header="Print ODR" Click="PrintODR_ClickAsync" Tag="DGBLANK"/>
-                                            <MenuItem Header="Open in SEA" Click="OpenInSEA_ClickAsync" Tag="DGBLANK"/>
-                                            <MenuItem Header="Open in CT01" Click="OpenInCT01_ClickAsync" Tag="DGBLANK"/>
-                                        </ContextMenu>
-                                    </DataGrid.ContextMenu>
+                                    
 
                                     <DataGrid.ColumnHeaderStyle>
                                         <Style TargetType="DataGridColumnHeader">

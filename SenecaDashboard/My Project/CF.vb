@@ -32,7 +32,7 @@ Public Class CF
 
     Public Function getCT01Password(sesa As String)
         Dim PWD As New Ct01_Login
-        Using db As New DigitalOrderQEntities
+        Using db As New BrossardDataWarehouseEntities
             Dim rec = From record In db.Ct01_Login
                       Where record.SESA = sesa
 
@@ -166,7 +166,7 @@ Public Class CF
         Return CTO1
     End Function
     Public Sub addUpdateCT01Password(PWD As Ct01_Login)
-        Using db As New DigitalOrderQEntities
+        Using db As New BrossardDataWarehouseEntities
             db.Database.CommandTimeout = 1000
             db.Database.Connection.Open()
             Dim rec = From record In db.Ct01_Login
