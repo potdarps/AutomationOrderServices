@@ -28,10 +28,10 @@
     <ProductName>Seneca Dashboard</ProductName>
     <PublisherName>Pankaj Potdar at Schenider Electric. Columbia ,SC</PublisherName>
     <SuiteName>Digital Dashboard</SuiteName>
-    <MinimumRequiredVersion>1.0.0.11</MinimumRequiredVersion>
+    <MinimumRequiredVersion>1.0.0.12</MinimumRequiredVersion>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>12</ApplicationRevision>
+    <ApplicationRevision>13</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>true</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -80,7 +80,7 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>D41C45253B9419FC90F9BA2BF6ACB4AFD598FCB7</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>D15EBDF66411D0BDF3426C3E13951FBE12A6C34D</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestKeyFile>SenecaDashboard_TemporaryKey.pfx</ManifestKeyFile>

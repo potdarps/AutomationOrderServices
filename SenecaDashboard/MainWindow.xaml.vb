@@ -307,7 +307,7 @@ Class MainWindow
                     If row.Contains("Prog Pnt :") Then
                         ODRExtract.ProgressPoint = row
                     End If
-                    If row = ("Rev") Then
+                    If row.Contains("Rev") Then
                         ODRExtract.CatalogueNumber = PagebyLine(pagelineCount + 1)
                         Dim RevExtract As String() = PagebyLine(pagelineCount - 1).Split(New Char() {" "c})
                         If RevExtract.Count > 1 Then
