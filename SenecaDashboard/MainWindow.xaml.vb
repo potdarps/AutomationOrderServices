@@ -195,7 +195,6 @@ Class MainWindow
             Dim K = From A In db.AccessTables
                     Join B In db.tb_ActiveDirectory
                         On A.SESA Equals B.employeeID
-                    Where A.Role = "Order Services"
                     Select B.displayName, A.SESA
 
             Dim J = K.ToList
@@ -253,21 +252,25 @@ Class MainWindow
                 Dim dirsFraction As Integer = Await Task(Of Integer).Run(Function()
                                                                              Dim Counter As Integer = 1
                                                                              For Each singleFile In allFiles
-                                                                                 If singleFile.Name.Contains("ODR") Then
-                                                                                     Dim X = processODR(singleFile)
-                                                                                     Using db As New BrossardDataWarehouseEntities
-                                                                                         db.OSQueues.AddRange(X)
-                                                                                         db.SaveChanges()
-                                                                                     End Using
-                                                                                     token.ThrowIfCancellationRequested()
-                                                                                     If progress IsNot Nothing Then
-                                                                                         progress.Report(Format((Counter / fileCount) * 100, "0.0"))
+                                                                                 Try
+                                                                                     If singleFile.Name.Contains("ODR") Then
+                                                                                         Dim X = processODR(singleFile)
+                                                                                         Using db As New BrossardDataWarehouseEntities
+                                                                                             db.OSQueues.AddRange(X)
+                                                                                             db.SaveChanges()
+                                                                                         End Using
+                                                                                         token.ThrowIfCancellationRequested()
+                                                                                         If progress IsNot Nothing Then
+                                                                                             progress.Report(Format((Counter / fileCount) * 100, "0.0"))
+                                                                                         End If
+                                                                                         Counter = Counter + 1
+                                                                                         singleFile.MoveTo(Path.Combine(X1.FullName, singleFile.Name))
+                                                                                     Else
+                                                                                         singleFile.MoveTo(Path.Combine(X1.FullName, singleFile.Name))
                                                                                      End If
-                                                                                     Counter = Counter + 1
-                                                                                     singleFile.MoveTo(Path.Combine(X1.FullName, singleFile.Name))
-                                                                                 Else
-                                                                                     singleFile.MoveTo(Path.Combine(X1.FullName, singleFile.Name))
-                                                                                 End If
+                                                                                 Catch ex As Exception
+                                                                                     MsgBox(ex.Message)
+                                                                                 End Try
                                                                              Next
                                                                              Return Status
                                                                          End Function)
@@ -431,6 +434,10 @@ Class MainWindow
                     End If
                     If row = "PROJECT MGR" Then
                         ODRExtract.PM = PagebyLine(pagelineCount + 9)
+                        ODRExtract.PROJECT_MGR_LOC = PagebyLine(pagelineCount + 10)
+                    End If
+                    If row.Contains("Line # Price") Then
+                        ODRExtract.Price = PagebyLine(pagelineCount + 1)
                     End If
 
                     If row.Contains("Orig Prom") Or row.Contains("Orig/CLO") Then
@@ -467,6 +474,9 @@ Class MainWindow
                 ODRExtract.InternalGroup = CheckIfIGA(ODRExtract.AccountNo)
                 Dim EndPageOut = iTextSharp.text.pdf.parser.PdfTextExtractor.GetTextFromPage(reader, endpage, its)
                 ODRExtract.ActionStat = FindActionStat(EndPageOut)
+                If ODRExtract.Product = "SWBD" Or ODRExtract.Product = "SWGR/PZ4" Then
+                    ODRExtract.Bays = IdentifySectionNumber(ODRFile, StartPage, endpage)
+                End If
                 ODRExtract.QueueGeneratedBy = ReturnNameFrmSesa(Environment.UserName.ToUpper)
                 ODRextractList.Add(ODRExtract)
             End If
@@ -859,24 +869,78 @@ Class MainWindow
                 End If
         End Select
     End Function
+    Public Function returnCT01date(ct01Date As String)
+        Dim dummydate As Nullable(Of Date)
 
+        If ct01Date.Trim <> "" Then
+            If ct01Date.Contains("/") = False Then
+                Dim dateExtract As String() = ct01Date.Split(New Char() {" "c})
+                Dim Ct01Date1 As Date = New Date("20" + dateExtract(2), dateExtract(0), dateExtract(1))
+                Return Ct01Date1
+            Else
+                Dim dateExtract As String() = ct01Date.Split(New Char() {"/"c})
+                Dim Ct01Date1 As Date = New Date("20" + dateExtract(2), dateExtract(0), dateExtract(1))
+                Return Ct01Date1
+            End If
+
+
+        Else
+            Return dummydate
+        End If
+
+    End Function
+    Public Function getCT01FormatDate(Ct01Date As Nullable(Of Date))
+        If Ct01Date IsNot Nothing Then
+            Dim Ct01Date1 As Date = Ct01Date
+            Dim CT01DAteString As String = Ct01Date1.Month.ToString().PadLeft(2, "0") + " " + Ct01Date1.Day.ToString().PadLeft(2, "0") + " " + Ct01Date1.ToString("yy")
+            Return CT01DAteString
+        Else
+            Return "        "
+        End If
+
+    End Function
     Private Sub ProcessJobs_Click(sender As Object, e As RoutedEventArgs)
         Using db As New BrossardDataWarehouseEntities
             If DGMYQueue.SelectedIndex <> -1 Then
                 Dim X As List(Of OSQueue) = DGMYQueue.SelectedItems.OfType(Of OSQueue).ToList
                 If X.Count <> 0 Then
-                    For Each A In X
-                        Dim rec = From B In db.OSQueues Where B.ID = A.ID
-                        If rec.Any Then
-                            For Each C In rec
-                                C.Processed = True
-                                C.dateProcessed = DateTime.Now
-                            Next
+                    Dim CF As New CF
+                    Dim CT01 As CT01check = CF.handlePassword
+                    If CT01.check = True Then
 
-                        End If
-                    Next
-                    db.SaveChanges()
 
+                        For Each A In X
+                            CT01 = CF.openJobinCT01Dummy(A.Q2CLISLSS.Substring(0, 8), A.Q2CLISLSS.Substring(8, 3), "057", CT01)
+                            If CT01.check = True Then
+                                lblRow1.Content = CT01.Session.Screen.GetString(1, 1, 80)
+                                lblRow2.Content = CT01.Session.Screen.GetString(2, 1, 80)
+                                lblRow3.Content = CT01.Session.Screen.GetString(3, 1, 80)
+                                lblRow4.Content = CT01.Session.Screen.GetString(4, 1, 80)
+                                lblRow51.Content = CT01.Session.Screen.GetString(5, 1, 51)
+                                datepickerInfoComp.SelectedDate = returnCT01date(CT01.Session.Screen.GetString(5, 52, 8))
+                                lblRow52.Content = CT01.Session.Screen.GetString(5, 62, 9)
+                                datepickerApprel.SelectedDate = returnCT01date(CT01.Session.Screen.GetString(5, 72, 8))
+                                lblRow6.Content = CT01.Session.Screen.GetString(6, 1, 80)
+                                lblRow71.Content = CT01.Session.Screen.GetString(7, 1, 35)
+                                'txtboxRow71.Text = CT01.Session.Screen.GetString(7, 36, 3)
+                                'lblRow72.Content = CT01.Session.Screen.GetString(7, 44, 8)
+                                'datepickerAPPELECorg.SelectedDate = returnCT01date(CT01.Session.Screen.GetString(7, 52, 8))
+                                'datepickerAPPELECcurr.SelectedDate = returnCT01date(CT01.Session.Screen.GetString(7, 62, 8))
+                                'datepickerAPPELECact.SelectedDate = returnCT01date(CT01.Session.Screen.GetString(7, 72, 8))
+                                ProcessJobWindow.IsOpen = True
+                            End If
+
+                            'Dim rec = From B In db.OSQueues Where B.ID = A.ID
+                            'If rec.Any Then
+                            '    For Each C In rec
+                            '        C.Processed = True
+                            '        C.dateProcessed = DateTime.Now
+                            '    Next
+
+                            'End If
+                        Next
+                        'db.SaveChanges()
+                    End If
                 End If
                 DGMYQueue.ItemsSource = Nothing
                 DGMYQueue.Items.Clear()

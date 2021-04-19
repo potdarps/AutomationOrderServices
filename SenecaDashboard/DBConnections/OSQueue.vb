@@ -38,5 +38,7 @@ Partial Public Class OSQueue
     Public Property AccountNo As String
     Public Property InternalGroup As Nullable(Of Boolean)
     Public Property CatalogueNumber As String
+    Public Property PROJECT_MGR_LOC As String
+    Public Property Price As String
 
 End Class

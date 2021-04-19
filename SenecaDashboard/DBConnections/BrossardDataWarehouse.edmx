@@ -62,6 +62,8 @@
           <Property Name="AccountNo" Type="varchar" MaxLength="50" />
           <Property Name="InternalGroup" Type="bit" />
           <Property Name="CatalogueNumber" Type="varchar" MaxLength="200" />
+          <Property Name="PROJECT_MGR_LOC" Type="varchar" MaxLength="200" />
+          <Property Name="Price" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="ProductLineToProductName">
           <Key>
@@ -141,6 +143,8 @@
           <Property Name="AccountNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="InternalGroup" Type="Boolean" />
           <Property Name="CatalogueNumber" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="PROJECT_MGR_LOC" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Price" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="AccessTable">
           <Key>
@@ -204,6 +208,8 @@
           <EntitySetMapping Name="OSQueues">
             <EntityTypeMapping TypeName="BrossardDataWarehouseModel.OSQueue">
               <MappingFragment StoreEntitySet="OSQueue">
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="PROJECT_MGR_LOC" ColumnName="PROJECT_MGR_LOC" />
                 <ScalarProperty Name="CatalogueNumber" ColumnName="CatalogueNumber" />
                 <ScalarProperty Name="InternalGroup" ColumnName="InternalGroup" />
                 <ScalarProperty Name="AccountNo" ColumnName="AccountNo" />
