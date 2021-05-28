@@ -13,10 +13,16 @@ Class MainWindow
     Private tokenSource As CancellationTokenSource
 
     Dim ProcessingFolder As String = "C:\Users\" + Environment.UserName.ToUpper + "\Box\Automation\Order Entry Automation Brossard\Processing\"
-    'Dim ProcessingFolder As String = "C:\Users\" + Environment.UserName.ToUpper + "\Box\Seneca Digital ODR\TestProcessing\"
+    'Dim ProcessingFolder As String = "\\orion-lpe.nam.gad.schneider-electric.com\Departements\200. Service Clientèle\99. Archive\ODR + SPD\Order Services Dashboard\DigitalQ\Processing"
     Dim ProcessedFolder As String = "C:\Users\" + Environment.UserName.ToUpper + "\Box\Automation\Order Entry Automation Brossard\Processed\"
+    'Dim ProcessedFolder As String = "\\orion-lpe.nam.gad.schneider-electric.com\Departements\200. Service Clientèle\99. Archive\ODR + SPD\Order Services Dashboard\DigitalQ\Processed"
     Dim ODRFolder As String = "C:\Users\" + Environment.UserName.ToUpper + "\Box\Automation\Order Entry Automation Brossard\ODRs\"
+    'Dim ODRFolder As String = "\\orion-lpe.nam.gad.schneider-electric.com\Departements\200. Service Clientèle\99. Archive\ODR + SPD\Order Services Dashboard\DigitalQ\ODRs"
     Dim fileCount As Integer = 0
+    Dim QQ As List(Of OSQueue)
+    Dim CT01 As CT01check
+    Dim JobID As Integer
+    Dim X1 As DirectoryInfo
 
     Public Sub New()
 
@@ -239,6 +245,7 @@ Class MainWindow
     End Sub
 
     Public Async Function ProcessODRFilesAsync(progress As IProgress(Of Integer), token As CancellationToken) As Task(Of Integer)
+
         Try
 
 
@@ -247,7 +254,7 @@ Class MainWindow
             Dim allFiles As FileInfo() = Directory.GetFiles("*.pdf")
             fileCount = allFiles.Count
             If fileCount > 0 Then
-                Dim X1 = System.IO.Directory.CreateDirectory(Path.Combine(ProcessedFolder, DateTime.Now.ToString("yyyy-MM-dd hh-mm-ss")))
+                X1 = System.IO.Directory.CreateDirectory(Path.Combine(ProcessedFolder, DateTime.Now.ToString("yyyy-MM-dd hh-mm-ss")))
 
                 Dim dirsFraction As Integer = Await Task(Of Integer).Run(Function()
                                                                              Dim Counter As Integer = 1
@@ -265,11 +272,12 @@ Class MainWindow
                                                                                          End If
                                                                                          Counter = Counter + 1
                                                                                          singleFile.MoveTo(Path.Combine(X1.FullName, singleFile.Name))
+                                                                                         'File.Move(singleFile.FullName, X1.FullName)
                                                                                      Else
                                                                                          singleFile.MoveTo(Path.Combine(X1.FullName, singleFile.Name))
                                                                                      End If
                                                                                  Catch ex As Exception
-                                                                                     MsgBox(ex.Message)
+                                                                                     'MsgBox(ex.Message)
                                                                                  End Try
                                                                              Next
                                                                              Return Status
@@ -282,6 +290,7 @@ Class MainWindow
         Catch ex As Exception
             MsgBox(ex.Message)
         End Try
+
     End Function
     Public Function FindActionStat(Sout As String) As String
         Dim ActionStat As String
@@ -482,6 +491,9 @@ Class MainWindow
             End If
         Next
         reader.Dispose()
+        reader.Close()
+
+
         Return ODRextractList
     End Function
     Public Function CheckIfIGA(AccNumber As String) As Boolean
@@ -541,6 +553,15 @@ Class MainWindow
             lblProgress.Content = ""
             progreeBarGenQueue.Visibility = Visibility.Hidden
             lblProgress.Visibility = Visibility.Hidden
+
+
+            Dim Directory As New DirectoryInfo(ProcessingFolder)
+            Dim allFilesx As FileInfo() = Directory.GetFiles("*.pdf")
+            If allFilesx.Count <> 0 Then
+                Await Me.ShowMessageAsync("Error", "Prpgram could not move fiels out of processign folder, please move them manually before next batch processing!")
+            End If
+
+
         End If
     End Function
 
@@ -655,14 +676,14 @@ Class MainWindow
                     AssignToMe(X)
                     loadOSQueue()
                 End If
-            Case "DGPanelBoard"
-                'Dim X As List(Of OSQueue) = DGPanelBoard.SelectedItems.OfType(Of OSQueue).ToList
-                'If X.Count = 0 Then
-                '    Await Me.ShowMessageAsync("Error", "Select at least one job!")
-                'Else
-                '    AssignToMe(X)
-                '    loadOSQueue()
-                'End If
+            Case "DGOTHER"
+                Dim X As List(Of OSQueue) = DGOTHER.SelectedItems.OfType(Of OSQueue).ToList
+                If X.Count = 0 Then
+                    Await Me.ShowMessageAsync("Error", "Select at least one job!")
+                Else
+                    AssignToMe(X)
+                    loadOSQueue()
+                End If
             Case "DGMisc"
                 'Dim X As List(Of OSQueue) = DGMisc.SelectedItems.OfType(Of OSQueue).ToList
                 'If X.Count = 0 Then
@@ -902,13 +923,13 @@ Class MainWindow
     Private Sub ProcessJobs_Click(sender As Object, e As RoutedEventArgs)
         Using db As New BrossardDataWarehouseEntities
             If DGMYQueue.SelectedIndex <> -1 Then
+                QQ = New List(Of OSQueue)
                 Dim X As List(Of OSQueue) = DGMYQueue.SelectedItems.OfType(Of OSQueue).ToList
+                QQ = X
                 If X.Count <> 0 Then
                     Dim CF As New CF
-                    Dim CT01 As CT01check = CF.handlePassword
+                    CT01 = CF.handlePassword
                     If CT01.check = True Then
-
-
                         For Each A In X
                             CT01 = CF.openJobinCT01Dummy(A.Q2CLISLSS.Substring(0, 8), A.Q2CLISLSS.Substring(8, 3), "057", CT01)
                             If CT01.check = True Then
@@ -922,24 +943,99 @@ Class MainWindow
                                 datepickerApprel.SelectedDate = returnCT01date(CT01.Session.Screen.GetString(5, 72, 8))
                                 lblRow6.Content = CT01.Session.Screen.GetString(6, 1, 80)
                                 lblRow71.Content = CT01.Session.Screen.GetString(7, 1, 35)
-                                'txtboxRow71.Text = CT01.Session.Screen.GetString(7, 36, 3)
-                                'lblRow72.Content = CT01.Session.Screen.GetString(7, 44, 8)
-                                'datepickerAPPELECorg.SelectedDate = returnCT01date(CT01.Session.Screen.GetString(7, 52, 8))
-                                'datepickerAPPELECcurr.SelectedDate = returnCT01date(CT01.Session.Screen.GetString(7, 62, 8))
-                                'datepickerAPPELECact.SelectedDate = returnCT01date(CT01.Session.Screen.GetString(7, 72, 8))
+                                txtboxOS.Text = CT01.Session.Screen.GetString(7, 36, 3)
+                                txtboxRE.Text = CT01.Session.Screen.GetString(8, 36, 3)
+                                txtboxAE.Text = CT01.Session.Screen.GetString(9, 36, 3)
+                                txtboxMD.Text = CT01.Session.Screen.GetString(10, 36, 3)
+                                txtboxED.Text = CT01.Session.Screen.GetString(11, 36, 3)
+                                txtboxAEHRS.Text = CT01.Session.Screen.GetString(9, 40, 3)
+                                txtboxMDHRS.Text = CT01.Session.Screen.GetString(10, 40, 3)
+                                txtboxEDHRS.Text = CT01.Session.Screen.GetString(11, 40, 3)
+
+                                datepickerAPPELECORG.SelectedDate = returnCT01date(CT01.Session.Screen.GetString(7, 52, 8))
+                                datepickerAPPELECCUR.SelectedDate = returnCT01date(CT01.Session.Screen.GetString(7, 62, 8))
+                                datepickerAPPELECACT.SelectedDate = returnCT01date(CT01.Session.Screen.GetString(7, 72, 8))
+
+                                datepickerAPPCOMPCORG.SelectedDate = returnCT01date(CT01.Session.Screen.GetString(8, 52, 8))
+                                datepickerAPPCOMPCUR.SelectedDate = returnCT01date(CT01.Session.Screen.GetString(8, 62, 8))
+                                datepickerAPPCOMPACT.SelectedDate = returnCT01date(CT01.Session.Screen.GetString(8, 72, 8))
+
+                                datepickerAPPSENTCORG.SelectedDate = returnCT01date(CT01.Session.Screen.GetString(9, 52, 8))
+                                datepickerAPPSENTCUR.SelectedDate = returnCT01date(CT01.Session.Screen.GetString(9, 62, 8))
+                                datepickerAPPSENTACT.SelectedDate = returnCT01date(CT01.Session.Screen.GetString(9, 72, 8))
+
+                                datepickerREDRAWORG.SelectedDate = returnCT01date(CT01.Session.Screen.GetString(10, 52, 8))
+                                datepickerREDRAWCUR.SelectedDate = returnCT01date(CT01.Session.Screen.GetString(10, 62, 8))
+                                datepickerREDRAWACT.SelectedDate = returnCT01date(CT01.Session.Screen.GetString(10, 72, 8))
+
+                                datepickerCUSTRELCORG.SelectedDate = returnCT01date(CT01.Session.Screen.GetString(11, 52, 8))
+                                datepickerCUSTRELCUR.SelectedDate = returnCT01date(CT01.Session.Screen.GetString(11, 62, 8))
+                                datepickerCUSTRELACT.SelectedDate = returnCT01date(CT01.Session.Screen.GetString(11, 72, 8))
+
+                                datepickerAECOMPCORG.SelectedDate = returnCT01date(CT01.Session.Screen.GetString(12, 52, 8))
+                                datepickerAECOMPCUR.SelectedDate = returnCT01date(CT01.Session.Screen.GetString(12, 62, 8))
+                                datepickerAECOMPACT.SelectedDate = returnCT01date(CT01.Session.Screen.GetString(12, 72, 8))
+
+                                datepickerEEOMPCORG.SelectedDate = returnCT01date(CT01.Session.Screen.GetString(13, 52, 8))
+                                datepickerEECOMPCUR.SelectedDate = returnCT01date(CT01.Session.Screen.GetString(13, 62, 8))
+                                datepickerEECOMPACT.SelectedDate = returnCT01date(CT01.Session.Screen.GetString(13, 72, 8))
+
+                                datepickerMECHDDCORG.SelectedDate = returnCT01date(CT01.Session.Screen.GetString(14, 52, 8))
+                                datepickerMECHDDCUR.SelectedDate = returnCT01date(CT01.Session.Screen.GetString(14, 62, 8))
+                                datepickerMECHDDACT.SelectedDate = returnCT01date(CT01.Session.Screen.GetString(14, 72, 8))
+
+                                datepickerRelPRCORG.SelectedDate = returnCT01date(CT01.Session.Screen.GetString(15, 52, 8))
+                                datepickerRelPRCUR.SelectedDate = returnCT01date(CT01.Session.Screen.GetString(15, 62, 8))
+                                datepickerRelPRACT.SelectedDate = returnCT01date(CT01.Session.Screen.GetString(15, 72, 8))
+
+                                datepickerRelShopCORG.SelectedDate = returnCT01date(CT01.Session.Screen.GetString(16, 52, 8))
+                                datepickerRelShopCUR.SelectedDate = returnCT01date(CT01.Session.Screen.GetString(16, 62, 8))
+                                datepickerRelShopACT.SelectedDate = returnCT01date(CT01.Session.Screen.GetString(16, 72, 8))
+
+                                datepickerASSYSTRCORG.SelectedDate = returnCT01date(CT01.Session.Screen.GetString(17, 52, 8))
+                                datepickerASSYSTRCUR.SelectedDate = returnCT01date(CT01.Session.Screen.GetString(17, 62, 8))
+                                datepickerASSYSTRACT.SelectedDate = returnCT01date(CT01.Session.Screen.GetString(17, 72, 8))
+
+                                datepickerASSYFINCORG.SelectedDate = returnCT01date(CT01.Session.Screen.GetString(18, 52, 8))
+                                datepickerASSYFINCUR.SelectedDate = returnCT01date(CT01.Session.Screen.GetString(18, 62, 8))
+                                datepickerASSYFINACT.SelectedDate = returnCT01date(CT01.Session.Screen.GetString(18, 72, 8))
+
+                                datepickerTESTORG.SelectedDate = returnCT01date(CT01.Session.Screen.GetString(19, 52, 8))
+                                datepickerTESTCUR.SelectedDate = returnCT01date(CT01.Session.Screen.GetString(19, 62, 8))
+                                datepickerTESTACT.SelectedDate = returnCT01date(CT01.Session.Screen.GetString(19, 72, 8))
+
+                                datepickerSHIPORG.SelectedDate = returnCT01date(CT01.Session.Screen.GetString(20, 52, 8))
+                                datepickerSHIPCUR.SelectedDate = returnCT01date(CT01.Session.Screen.GetString(20, 62, 8))
+                                datepickerSHIPACT.SelectedDate = returnCT01date(CT01.Session.Screen.GetString(20, 72, 8))
+
+                                datepickerRECSENTORG.SelectedDate = returnCT01date(CT01.Session.Screen.GetString(21, 52, 8))
+                                datepickerRECSENTCUR.SelectedDate = returnCT01date(CT01.Session.Screen.GetString(21, 62, 8))
+                                datepickerRECSENTACT.SelectedDate = returnCT01date(CT01.Session.Screen.GetString(21, 72, 8))
+
+                                datepickeronsiteORG.SelectedDate = returnCT01date(CT01.Session.Screen.GetString(22, 52, 8))
+                                datepickeronsiteCUR.SelectedDate = returnCT01date(CT01.Session.Screen.GetString(22, 62, 8))
+                                datepickeronsiteACT.SelectedDate = returnCT01date(CT01.Session.Screen.GetString(22, 72, 8))
+
+                                txtboxSect.Text = CT01.Session.Screen.GetString(17, 11, 2)
+                                txtboxLTCode.Text = CT01.Session.Screen.GetString(16, 9, 2)
+                                txtboxCPLXA.Text = CT01.Session.Screen.GetString(16, 23, 2)
+                                txtboxCPLXB.Text = CT01.Session.Screen.GetString(16, 26, 2)
+                                txtboxCPLXC.Text = CT01.Session.Screen.GetString(16, 29, 2)
+                                txtboxSER.Text = CT01.Session.Screen.GetString(17, 21, 10)
                                 ProcessJobWindow.IsOpen = True
                             End If
 
-                            'Dim rec = From B In db.OSQueues Where B.ID = A.ID
-                            'If rec.Any Then
-                            '    For Each C In rec
-                            '        C.Processed = True
-                            '        C.dateProcessed = DateTime.Now
-                            '    Next
+                            Dim rec = From B In db.OSQueues Where B.ID = A.ID
+                            JobID = A.ID
 
-                            'End If
+                            If rec.Any Then
+                                For Each C In rec
+                                    C.Processed = True
+                                    C.dateProcessed = DateTime.Now
+                                Next
+                            End If
                         Next
-                        'db.SaveChanges()
+                        db.SaveChanges()
                     End If
                 End If
                 DGMYQueue.ItemsSource = Nothing
@@ -947,6 +1043,97 @@ Class MainWindow
                 DGMYQueue.ItemsSource = (From record In db.OSQueues Where record.OS_SESA = Environment.UserName.ToUpper And record.Processed Is Nothing).ToList
             End If
         End Using
+    End Sub
+
+    Public Sub clearprocessingWindow()
+        lblRow1.Content = ""
+        lblRow2.Content = ""
+        lblRow3.Content = ""
+        lblRow4.Content = ""
+        lblRow51.Content = ""
+        datepickerInfoComp.SelectedDate = Nothing
+        lblRow52.Content = ""
+        datepickerApprel.SelectedDate = Nothing
+        lblRow6.Content = ""
+        lblRow71.Content = ""
+        txtboxOS.Text = ""
+        txtboxRE.Text = ""
+        txtboxAE.Text = ""
+        txtboxMD.Text = ""
+        txtboxED.Text = ""
+        txtboxAEHRS.Text = ""
+        txtboxMDHRS.Text = ""
+        txtboxEDHRS.Text = ""
+
+        datepickerAPPELECORG.SelectedDate = Nothing
+        datepickerAPPELECCUR.SelectedDate = Nothing
+        datepickerAPPELECACT.SelectedDate = Nothing
+
+        datepickerAPPCOMPCORG.SelectedDate = Nothing
+        datepickerAPPCOMPCUR.SelectedDate = Nothing
+        datepickerAPPCOMPACT.SelectedDate = Nothing
+
+        datepickerAPPSENTCORG.SelectedDate = Nothing
+        datepickerAPPSENTCUR.SelectedDate = Nothing
+        datepickerAPPSENTACT.SelectedDate = Nothing
+
+        datepickerREDRAWORG.SelectedDate = Nothing
+        datepickerREDRAWCUR.SelectedDate = Nothing
+        datepickerREDRAWACT.SelectedDate = Nothing
+
+        datepickerCUSTRELCORG.SelectedDate = Nothing
+        datepickerCUSTRELCUR.SelectedDate = Nothing
+        datepickerCUSTRELACT.SelectedDate = Nothing
+
+        datepickerAECOMPCORG.SelectedDate = Nothing
+        datepickerAECOMPCUR.SelectedDate = Nothing
+        datepickerAECOMPACT.SelectedDate = Nothing
+
+        datepickerEEOMPCORG.SelectedDate = Nothing
+        datepickerEECOMPCUR.SelectedDate = Nothing
+        datepickerEECOMPACT.SelectedDate = Nothing
+
+        datepickerMECHDDCORG.SelectedDate = Nothing
+        datepickerMECHDDCUR.SelectedDate = Nothing
+        datepickerMECHDDACT.SelectedDate = Nothing
+
+        datepickerRelPRCORG.SelectedDate = Nothing
+        datepickerRelPRCUR.SelectedDate = Nothing
+        datepickerRelPRACT.SelectedDate = Nothing
+
+        datepickerRelShopCORG.SelectedDate = Nothing
+        datepickerRelShopCUR.SelectedDate = Nothing
+        datepickerRelShopACT.SelectedDate = Nothing
+
+        datepickerASSYSTRCORG.SelectedDate = Nothing
+        datepickerASSYSTRCUR.SelectedDate = Nothing
+        datepickerASSYSTRACT.SelectedDate = Nothing
+
+        datepickerASSYFINCORG.SelectedDate = Nothing
+        datepickerASSYFINCUR.SelectedDate = Nothing
+        datepickerASSYFINACT.SelectedDate = Nothing
+
+        datepickerTESTORG.SelectedDate = Nothing
+        datepickerTESTCUR.SelectedDate = Nothing
+        datepickerTESTACT.SelectedDate = Nothing
+
+        datepickerSHIPORG.SelectedDate = Nothing
+        datepickerSHIPCUR.SelectedDate = Nothing
+        datepickerSHIPACT.SelectedDate = Nothing
+
+        datepickerRECSENTORG.SelectedDate = Nothing
+        datepickerRECSENTCUR.SelectedDate = Nothing
+        datepickerRECSENTACT.SelectedDate = Nothing
+
+        datepickeronsiteORG.SelectedDate = Nothing
+        datepickeronsiteCUR.SelectedDate = Nothing
+        datepickeronsiteACT.SelectedDate = Nothing
+
+        txtboxSect.Text = ""
+        txtboxCPLXA.Text = ""
+        txtboxCPLXB.Text = ""
+        txtboxCPLXC.Text = ""
+        txtboxSER.Text = ""
     End Sub
 
     Private Async Function PrintODR_ClickAsync(sender As Object, e As RoutedEventArgs) As Task
@@ -1263,6 +1450,109 @@ Class MainWindow
             Await Me.ShowMessageAsync("Error", "Please select atleast one job")
         End If
     End Function
+
+    Private Sub btnProcess_Click(sender As Object, e As RoutedEventArgs) Handles btnProcess.Click
+
+
+
+        CT01.Session.Screen.PutString(getCT01FormatDate(datepickerInfoComp.SelectedDate), 5, 52)
+        CT01.Session.Screen.PutString(getCT01FormatDate(datepickerApprel.SelectedDate), 5, 72)
+
+        CT01.Session.Screen.PutString(getCT01FormatDate(datepickerAPPELECORG.SelectedDate), 7, 52)
+        CT01.Session.Screen.PutString(getCT01FormatDate(datepickerAPPELECCUR.SelectedDate), 7, 62)
+        CT01.Session.Screen.PutString(getCT01FormatDate(datepickerAPPELECACT.SelectedDate), 7, 72)
+
+        CT01.Session.Screen.PutString(getCT01FormatDate(datepickerAPPCOMPCORG.SelectedDate), 8, 52)
+        CT01.Session.Screen.PutString(getCT01FormatDate(datepickerAPPCOMPCUR.SelectedDate), 8, 62)
+        CT01.Session.Screen.PutString(getCT01FormatDate(datepickerAPPCOMPACT.SelectedDate), 8, 72)
+
+        CT01.Session.Screen.PutString(getCT01FormatDate(datepickerAPPSENTCORG.SelectedDate), 9, 52)
+        CT01.Session.Screen.PutString(getCT01FormatDate(datepickerAPPSENTCUR.SelectedDate), 9, 62)
+        CT01.Session.Screen.PutString(getCT01FormatDate(datepickerAPPSENTACT.SelectedDate), 9, 72)
+
+        CT01.Session.Screen.PutString(getCT01FormatDate(datepickerREDRAWORG.SelectedDate), 10, 52)
+        CT01.Session.Screen.PutString(getCT01FormatDate(datepickerREDRAWCUR.SelectedDate), 10, 62)
+        CT01.Session.Screen.PutString(getCT01FormatDate(datepickerREDRAWACT.SelectedDate), 10, 72)
+
+
+        CT01.Session.Screen.PutString(getCT01FormatDate(datepickerCUSTRELCORG.SelectedDate), 11, 52)
+        CT01.Session.Screen.PutString(getCT01FormatDate(datepickerCUSTRELCUR.SelectedDate), 11, 62)
+        CT01.Session.Screen.PutString(getCT01FormatDate(datepickerCUSTRELACT.SelectedDate), 11, 72)
+
+        CT01.Session.Screen.PutString(getCT01FormatDate(datepickerAECOMPCORG.SelectedDate), 12, 52)
+        CT01.Session.Screen.PutString(getCT01FormatDate(datepickerAECOMPCUR.SelectedDate), 12, 62)
+        CT01.Session.Screen.PutString(getCT01FormatDate(datepickerAECOMPACT.SelectedDate), 12, 72)
+
+        CT01.Session.Screen.PutString(getCT01FormatDate(datepickerEEOMPCORG.SelectedDate), 13, 52)
+        CT01.Session.Screen.PutString(getCT01FormatDate(datepickerEECOMPCUR.SelectedDate), 13, 62)
+        CT01.Session.Screen.PutString(getCT01FormatDate(datepickerEECOMPACT.SelectedDate), 13, 72)
+
+        CT01.Session.Screen.PutString(getCT01FormatDate(datepickerMECHDDCORG.SelectedDate), 14, 52)
+        CT01.Session.Screen.PutString(getCT01FormatDate(datepickerMECHDDCUR.SelectedDate), 14, 62)
+        CT01.Session.Screen.PutString(getCT01FormatDate(datepickerMECHDDACT.SelectedDate), 14, 72)
+
+        CT01.Session.Screen.PutString(getCT01FormatDate(datepickerRelPRCORG.SelectedDate), 15, 52)
+        CT01.Session.Screen.PutString(getCT01FormatDate(datepickerRelPRCUR.SelectedDate), 15, 62)
+        CT01.Session.Screen.PutString(getCT01FormatDate(datepickerRelPRACT.SelectedDate), 15, 72)
+
+        CT01.Session.Screen.PutString(getCT01FormatDate(datepickerRelShopCORG.SelectedDate), 16, 52)
+        CT01.Session.Screen.PutString(getCT01FormatDate(datepickerRelShopCUR.SelectedDate), 16, 62)
+        CT01.Session.Screen.PutString(getCT01FormatDate(datepickerRelShopACT.SelectedDate), 16, 72)
+
+        CT01.Session.Screen.PutString(getCT01FormatDate(datepickerASSYSTRCORG.SelectedDate), 17, 52)
+        CT01.Session.Screen.PutString(getCT01FormatDate(datepickerASSYSTRCUR.SelectedDate), 17, 62)
+        CT01.Session.Screen.PutString(getCT01FormatDate(datepickerASSYSTRACT.SelectedDate), 17, 72)
+
+        CT01.Session.Screen.PutString(getCT01FormatDate(datepickerASSYFINCORG.SelectedDate), 18, 52)
+        CT01.Session.Screen.PutString(getCT01FormatDate(datepickerASSYFINCUR.SelectedDate), 18, 62)
+        CT01.Session.Screen.PutString(getCT01FormatDate(datepickerASSYFINACT.SelectedDate), 18, 72)
+
+        CT01.Session.Screen.PutString(getCT01FormatDate(datepickerTESTORG.SelectedDate), 19, 52)
+        CT01.Session.Screen.PutString(getCT01FormatDate(datepickerTESTCUR.SelectedDate), 19, 62)
+        CT01.Session.Screen.PutString(getCT01FormatDate(datepickerTESTACT.SelectedDate), 19, 72)
+
+        CT01.Session.Screen.PutString(txtboxOS.Text, 7, 36)
+        CT01.Session.Screen.PutString(txtboxRE.Text, 8, 36)
+        CT01.Session.Screen.PutString(txtboxAE.Text, 9, 36)
+        CT01.Session.Screen.PutString(txtboxMD.Text, 10, 36)
+        CT01.Session.Screen.PutString(txtboxED.Text, 11, 36)
+        CT01.Session.Screen.PutString(txtboxAEHRS.Text, 9, 40)
+        CT01.Session.Screen.PutString(txtboxMDHRS.Text, 10, 40)
+        CT01.Session.Screen.PutString(txtboxEDHRS.Text, 11, 40)
+
+        CT01.Session.Screen.PutString(txtboxLTCode.Text, 16, 9)
+        CT01.Session.Screen.PutString(txtboxCPLXA.Text, 16, 23)
+        CT01.Session.Screen.PutString(txtboxCPLXB.Text, 16, 29)
+        CT01.Session.Screen.PutString(txtboxCPLXC.Text, 16, 40)
+        CT01.Session.Screen.PutString(txtboxSect.Text, 17, 11)
+        CT01.Session.Screen.PutString(txtboxSER.Text, 17, 21)
+
+        CT01.Session.Screen.SendKeys("<Enter>")
+        Threading.Thread.Sleep(1000)
+        CT01.Session.Screen.SendKeys("<PF2>")
+        Threading.Thread.Sleep(1000)
+        CT01.Session.Screen.SendKeys("<Enter>")
+        Threading.Thread.Sleep(500)
+
+        clearprocessingWindow()
+        ProcessJobWindow.IsOpen = False
+
+        Using db As New BrossardDataWarehouseEntities
+            Dim rec = From B In db.OSQueues Where B.ID = JobID
+            If rec.Any Then
+                For Each C In rec
+                    C.Processed = True
+                    C.dateProcessed = DateTime.Now
+                Next
+            End If
+
+            db.SaveChanges()
+            DGMYQueue.ItemsSource = Nothing
+            DGMYQueue.Items.Clear()
+            DGMYQueue.ItemsSource = (From record In db.OSQueues Where record.OS_SESA = Environment.UserName.ToUpper And record.Processed Is Nothing).ToList
+        End Using
+    End Sub
+
 End Class
 
 Public Class Q2CLISLSSSplitConverter
