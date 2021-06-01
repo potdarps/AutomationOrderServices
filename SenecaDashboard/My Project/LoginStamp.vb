@@ -10,13 +10,9 @@
 Imports System
 Imports System.Collections.Generic
 
-Namespace SenecaDashboard
+Partial Public Class LoginStamp
+    Public Property ID As Integer
+    Public Property SESA As String
+    Public Property LoginDate As Nullable(Of Date)
 
-    Partial Public Class LoginStamp
-        Public Property ID As Integer
-        Public Property SESA As String
-        Public Property LoginDate As Nullable(Of Date)
-    
-    End Class
-
-End Namespace
+End Class
